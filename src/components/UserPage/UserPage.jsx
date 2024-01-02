@@ -13,12 +13,12 @@ function UserPage() {
 
   const credits = () => {
     console.log("Credits!");
-    history.push("/about");
+    history.push("/credits");
   };
 
   const newParty = () => {
     console.log("New Party")
-    // history.push("/about");
+    history.push("/NewParty");
   }
 
   const newChar = () => {

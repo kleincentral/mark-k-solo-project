@@ -12,7 +12,6 @@ router.get("/", rejectUnauthenticated, (req, res) => {
   const queryText = `
     SELECT * FROM "party"
     WHERE "party".user_id = $1;`;
-  console.log("In Party Router");
   pool
     .query(queryText, [req.user.id])
     .then((result) => res.send(result.rows))

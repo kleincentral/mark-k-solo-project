@@ -12,7 +12,6 @@ router.get("/", rejectUnauthenticated, (req, res) => {
   const queryText = `
     SELECT * FROM "characters"
     WHERE "characters".user_id = $1;`;
-  console.log("In character router");
   pool
     .query(queryText, [req.user.id])
     .then((result) => res.send(result.rows))
