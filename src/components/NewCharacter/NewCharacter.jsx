@@ -4,8 +4,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
  
 
 function NewCharacter() {
-  let [newCharacterName, setCharacterName] = useState('')
-  let [newCharacterBodyType, setCharacterBodyType] = useState('')
+  let [characterName, setCharacterName] = useState('')
   let [characterClass, setCharacterClass] = useState('')
   let [characterBuild, setCharacterBuild] = useState('')
 
@@ -16,10 +15,14 @@ function NewCharacter() {
   let history = useHistory()
 
   const postCharacter = (event) => {
-    event.preventDefault
+    event.preventDefault()
     dispatch({
-      type: "CREATE_PARTY",
-      payload: 's'
+      type: "CREATE_CHARACTER",
+      payload: {
+        characterClass,
+        characterBuild,
+        characterName
+      }
     })
     history.push('/user')
   }
@@ -33,7 +36,7 @@ function NewCharacter() {
       <h2>Create A Character</h2>
       <form>
         <input
-          value={newCharacterName}
+          value={characterName}
           placeholder='Character Name'
           onChange={() => setCharacterName(event.target.value)}
         />
