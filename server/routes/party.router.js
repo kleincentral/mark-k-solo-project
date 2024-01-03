@@ -12,7 +12,6 @@ router.get("/", rejectUnauthenticated, (req, res) => {
   const queryText = `
     SELECT * FROM "party"
     WHERE "party".user_id = $1;`;
-  console.log("In Party Router");
   pool
     .query(queryText, [req.user.id])
     .then((result) => res.send(result.rows))
@@ -21,5 +20,25 @@ router.get("/", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
+
+router.post("/", (req, res) => {
+  const party_name = req.body.party_name
+  const char0 = req.body.char0.id;
+  const char1 = req.body.char1.id;
+  const char2 = req.body.char2.id;
+
+  const queryText = `
+    INSERT INTO "party"
+      (party_name, user_id, character_0_id, character_1_id, character_2_id)
+    VALUES ($1, $2, $3, $4, $5)`;
+  pool
+    .query(queryText, [party_name, req.user.id, char0, char1, char2])
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.log("User registration failed: ", err);
+      res.sendStatus(500);
+    });
+});
+
 
 module.exports = router;

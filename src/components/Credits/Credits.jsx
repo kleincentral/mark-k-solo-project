@@ -5,7 +5,7 @@ import React from 'react';
 // It doesn't dispatch any redux actions or display any part of redux state
 // or even care what the redux state is'
 
-function AboutPage() {
+function Credits() {
   return (
     <div className="container">
       <div>
@@ -15,4 +15,4 @@ function AboutPage() {
   );
 }
 
-export default AboutPage;
+export default Credits;
