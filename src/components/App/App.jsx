@@ -20,6 +20,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import NewParty from '../NewParty/NewParty';
+import NewCharacter from '../NewCharacter/NewCharacter'
 
 import './App.css';
 
@@ -75,6 +76,14 @@ function App() {
             path="/newParty"
           >
             <NewParty />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/newCharacter"
+          >
+            <NewCharacter />
           </ProtectedRoute>
 
           <Route

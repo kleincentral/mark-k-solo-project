@@ -12,18 +12,17 @@ function UserPage() {
   const history = useHistory();
 
   const credits = () => {
-    console.log("Credits!");
     history.push("/credits");
   };
 
   const newParty = () => {
     console.log("New Party")
-    history.push("/NewParty");
+    history.push("/newParty");
   }
 
   const newChar = () => {
     console.log("New Character")
-    // history.push("/about");
+    history.push("/newCharacter");
   }
 
   const newWorld = () => {
