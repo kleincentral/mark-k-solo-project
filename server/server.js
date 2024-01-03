@@ -12,6 +12,7 @@ const userRouter = require("./routes/user.router");
 const worldRouter = require("./routes/world.router");
 const partyRouter = require("./routes/party.router");
 const characterRouter = require("./routes/character.router");
+const class_buildRouter = require("./routes/class_build.router")
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -29,6 +30,7 @@ app.use("/api/user", userRouter);
 app.use("/api/world", worldRouter);
 app.use("/api/party", partyRouter);
 app.use("/api/characters", characterRouter);
+app.use("/api/class_build", class_buildRouter)
 
 // Serve static files
 app.use(express.static("build"));

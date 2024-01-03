@@ -4,6 +4,8 @@ import user from "./user.reducer";
 import world from "./world.reducer";
 import party from "./party.reducer";
 import character from "./character.reducer";
+import build from "./build.reducer";
+import classReducer from "./class.reducer";
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
 // This is imported in index.js as rootSaga
@@ -16,6 +18,8 @@ const rootReducer = combineReducers({
   world,
   party,
   character,
+  build,
+  classReducer
 });
 
 export default rootReducer;
