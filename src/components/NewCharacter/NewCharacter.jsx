@@ -7,7 +7,11 @@ function NewCharacter() {
   let [newCharacterName, setCharacterName] = useState('')
   let [newCharacterBodyType, setCharacterBodyType] = useState('')
   let [characterClass, setCharacterClass] = useState('')
-  const character = useSelector((store) => store.character);
+  let [characterBuild, setCharacterBuild] = useState('')
+
+  const classReducer = useSelector((store) => store.classReducer);
+  const buildType = useSelector((store) => store.build)
+
   let dispatch = useDispatch()
   let history = useHistory()
 
@@ -34,17 +38,44 @@ function NewCharacter() {
           onChange={() => setCharacterName(event.target.value)}
         />
         <br></br>
-        <input
+        <select
+          value={characterBuild}
+          onChange={() => setCharacterBuild(event.target.value)}
+        >
+          <option key={0} value="">
+            Body Type
+          </option>
+          {buildType[0] &&
+            buildType.map((index) => {
+              return (
+                <option key={index.id} value={index.id}>
+                  {index.build_type}
+                </option>
+              );
+            })}
+        </select>
+        {/* <input
           value={newCharacterBodyType}
           placeholder='Body Type'
-          onChange={() => setCharacterBodyType(event.target.value)}
-        />
+          onChange={() => setCharacterBuild(event.target.value)}
+        /> */}
         <br></br>
-        <input
-          value={newCharacterBodyType}
-          placeholder='Class'
-          onChange={() => setCharacterBodyType(event.target.value)}
-        />
+        <select
+          value={characterClass}
+          onChange={() => setCharacterClass(event.target.value)}
+        >
+          <option key={0} value="">
+            Classes
+          </option>
+          {classReducer[0] &&
+            classReducer.map((className) => {
+              return (
+                <option key={className.id} value={className.id}>
+                  {className.class_name}
+                </option>
+              );
+            })}
+        </select>
         <br></br>
         <button onClick={() => postCharacter(event)}>Submit</button>
       </form>
