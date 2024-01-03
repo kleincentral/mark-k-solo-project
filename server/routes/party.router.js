@@ -22,7 +22,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const party_name = req.body.party_name
+  const party_name = req.body.party_name;
   const char0 = req.body.char0.id;
   const char1 = req.body.char1.id;
   const char2 = req.body.char2.id;
@@ -39,6 +39,5 @@ router.post("/", (req, res) => {
       res.sendStatus(500);
     });
 });
-
 
 module.exports = router;

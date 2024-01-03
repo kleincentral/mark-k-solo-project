@@ -24,7 +24,6 @@ function* fetchUser() {
     yield put({ type: "FETCH_CHARACTER" });
     yield put({ type: "FETCH_BUILD" });
     yield put({ type: "FETCH_CLASS" });
-
   } catch (error) {
     console.log("User get request failed", error);
   }

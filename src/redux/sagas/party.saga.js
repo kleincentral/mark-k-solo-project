@@ -12,17 +12,17 @@ function* fetchParty() {
   }
 }
 
-function * createParty(action) {
+function* createParty(action) {
   try {
     const response = yield axios({
       method: "POST",
       url: `/api/party`,
-      data: action.payload
+      data: action.payload,
     });
 
-    yield put({type: "FETCH_PARTY"})
+    yield put({ type: "FETCH_PARTY" });
   } catch (error) {
-    console.log("Party POST request failed", error)
+    console.log("Party POST request failed", error);
   }
 }
 

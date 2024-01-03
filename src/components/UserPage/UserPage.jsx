@@ -16,54 +16,62 @@ function UserPage() {
   };
 
   const newParty = () => {
-    console.log("New Party")
+    console.log("New Party");
     history.push("/newParty");
-  }
+  };
 
   const newChar = () => {
-    console.log("New Character")
+    console.log("New Character");
     history.push("/newCharacter");
-  }
+  };
 
   const newWorld = () => {
-    console.log("New World")
+    console.log("New World");
     // history.push("/about");
-  }
+  };
 
   const editCharacter = (id) => {
-    console.log("CharacterID:", id)
+    console.log("CharacterID:", id);
     // history.push("/about");
-  }
+  };
 
   const editParty = (id) => {
-    console.log("PartyID:", id)
+    console.log("PartyID:", id);
     // history.push("/about");
-  }
+  };
 
   const editWorld = (id) => {
-    console.log("WorldID:", id)
+    console.log("WorldID:", id);
     // history.push("/about");
-  }
+  };
 
   return (
     <div className="container">
       <h2>Welcome, {user.username}!</h2>
       <p>Your ID is: {user.id}</p>
       <button onClick={newParty}>New Party</button>
-      {party[0] && (
+      {party[0] &&
         party.map((index) => {
-          return <li onClick={() => editParty(index.id)}>{index.party_name}</li>;
-        }))}
+          return (
+            <li onClick={() => editParty(index.id)}>{index.party_name}</li>
+          );
+        })}
       <button onClick={newChar}>New Character</button>
-      {character[0] && (
+      {character[0] &&
         character.map((index) => {
-          return <li onClick={() => editCharacter(index.id)}>{index.character_name}</li>;
-        }))}
+          return (
+            <li onClick={() => editCharacter(index.id)}>
+              {index.character_name}
+            </li>
+          );
+        })}
       <button onClick={newWorld}>New World</button>
-      {world[0] && (
+      {world[0] &&
         world.map((index) => {
-          return <li onClick={() => editWorld(index.id)}>{index.world_name}</li>;
-        }))}
+          return (
+            <li onClick={() => editWorld(index.id)}>{index.world_name}</li>
+          );
+        })}
       <button className="btn" onClick={credits}>
         Credits
       </button>

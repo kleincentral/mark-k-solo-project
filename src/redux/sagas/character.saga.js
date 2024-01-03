@@ -17,7 +17,7 @@ function* createCharacter(action) {
     const response = yield axios({
       method: "POST",
       url: `/api/characters`,
-      data: action.payload
+      data: action.payload,
     });
     yield put({ type: "FETCH_CHARACTER" });
   } catch (error) {

@@ -1,35 +1,33 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
- 
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function NewCharacter() {
-  let [characterName, setCharacterName] = useState('')
-  let [characterClass, setCharacterClass] = useState('')
-  let [characterBuild, setCharacterBuild] = useState('')
+  let [characterName, setCharacterName] = useState("");
+  let [characterClass, setCharacterClass] = useState("");
+  let [characterBuild, setCharacterBuild] = useState("");
 
   const classReducer = useSelector((store) => store.classReducer);
-  const buildType = useSelector((store) => store.build)
+  const buildType = useSelector((store) => store.build);
 
-  let dispatch = useDispatch()
-  let history = useHistory()
+  let dispatch = useDispatch();
+  let history = useHistory();
 
   const postCharacter = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     dispatch({
       type: "CREATE_CHARACTER",
       payload: {
         characterClass,
         characterBuild,
-        characterName
-      }
-    })
-    history.push('/user')
-  }
-  // This function first finds if there is a repeating 
+        characterName,
+      },
+    });
+    history.push("/user");
+  };
+  // This function first finds if there is a repeating
   // party character. If there isn't, it will add
   // the new character to the party.
-  
 
   return (
     <div>
@@ -37,7 +35,7 @@ function NewCharacter() {
       <form>
         <input
           value={characterName}
-          placeholder='Character Name'
+          placeholder="Character Name"
           onChange={() => setCharacterName(event.target.value)}
         />
         <br></br>

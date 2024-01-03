@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   party,
   character,
   build,
-  classReducer
+  classReducer,
 });
 
 export default rootReducer;
