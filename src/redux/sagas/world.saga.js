@@ -12,8 +12,23 @@ function* fetchWorld() {
   }
 }
 
+function* createWorld(action) {
+  try {
+    const response = yield axios({
+      method: "POST",
+      url: `/api/world`,
+      data: action.payload,
+    });
+
+    yield put({ type: "FETCH_WORLD" });
+  } catch (error) {
+    console.log("User POST request failed", error);
+  }
+}
+
 function* worldSaga() {
   yield takeLatest("FETCH_WORLD", fetchWorld);
+  yield takeLatest("CREATE_WORLD", createWorld);
 }
 
 export default worldSaga;

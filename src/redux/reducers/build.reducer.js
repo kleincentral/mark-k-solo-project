@@ -1,4 +1,4 @@
-const buildReducer = (state = {}, action) => {
+const buildReducer = (state = [], action) => {
   switch (action.type) {
     case "SET_BUILD":
       return action.payload;

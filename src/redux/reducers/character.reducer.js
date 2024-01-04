@@ -1,4 +1,4 @@
-const characterReducer = (state = {}, action) => {
+const characterReducer = (state = [], action) => {
   switch (action.type) {
     case "SET_CHARACTER":
       return action.payload;

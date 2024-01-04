@@ -21,4 +21,19 @@ router.get("/", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post("/", rejectUnauthenticated, (req, res) => {
+  const queryText = `
+    INSERT INTO "worlds"
+      (user_id, world_name, party_id)
+    VALUES
+    ($1, $2, $3)`;
+  pool
+    .query(queryText, [req.user.id, req.body.worldName, req.body.partyID])
+    .then((result) => res.sendStatus(200))
+    .catch((err) => {
+      console.log("World POST failed: ", err);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;
