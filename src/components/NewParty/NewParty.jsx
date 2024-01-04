@@ -70,6 +70,9 @@ function NewParty() {
         />
       </form>
       <button onClick={() => history.goBack()}>Back</button>
+      <button onClick={() => history.push("/newCharacter")}>
+        Create Character
+      </button>
       <button onClick={postParty}>Save</button>
     </div>
   );

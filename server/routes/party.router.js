@@ -29,7 +29,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
   pool
     .query(queryText, [req.user.id])
     .then((result) => {
-      console.log(result.rows);
+      // console.log(result.rows);
 
       let newInput = [];
       let i = 0;
@@ -50,7 +50,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
           typeof newInput[0] === "undefined" ||
           addToInput.id != newInput[i - 1].id
         ) {
-          console.log("Success in Input");
+          // console.log("Success in Input");
           newInput.push(addToInput);
           i++;
         }

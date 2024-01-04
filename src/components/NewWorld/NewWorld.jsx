@@ -32,16 +32,16 @@ function NewWorld() {
     history.push("/user");
   };
 
+  const toNewParty = (event) => {
+    event.preventDefault();
+    history.push("/newParty");
+  };
+
   const getCharactersFromParty = (partyId) => {
     partyId = Number(partyId);
-    // Get the character IDs from the party object that's in the party reducer.
     console.log(partyId, allParties);
     let theParty = allParties.find((party) => party.id === partyId);
-
     let characterIDs = theParty.characters;
-    console.log(characterIDs);
-    // Create a new array by filtering the character reducer down to only characters
-    // whose IDs match the three we're lookin' for.
     setCurrentPartyChar(characterIDs);
   };
 
@@ -73,7 +73,8 @@ function NewWorld() {
         {currentPartyChar.map((index) => {
           return <p>{index}</p>;
         })}
-        <button onClick={() => postWorld(event)}>Submit</button>
+        <button onClick={() => toNewParty(event)}>New Party</button>
+        <button onClick={() => postWorld(event)}>Depart</button>
       </form>
     </div>
   );
