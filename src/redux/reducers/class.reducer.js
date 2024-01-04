@@ -1,4 +1,4 @@
-const classReducer = (state = {}, action) => {
+const classReducer = (state = [], action) => {
   switch (action.type) {
     case "SET_CLASS":
       return action.payload;

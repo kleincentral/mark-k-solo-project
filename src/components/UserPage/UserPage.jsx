@@ -27,7 +27,7 @@ function UserPage() {
 
   const newWorld = () => {
     console.log("New World");
-    // history.push("/about");
+    history.push("/newWorld");
   };
 
   const editCharacter = (id) => {
