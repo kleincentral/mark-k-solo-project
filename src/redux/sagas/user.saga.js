@@ -19,18 +19,27 @@ function* fetchUser() {
     // with an id and username set the client-side user object to let
     // the client-side code know the user is logged in
     yield put({ type: "SET_USER", payload: response.data });
-    yield put({ type: "FETCH_WORLD" });
-    yield put({ type: "FETCH_PARTY" });
-    yield put({ type: "FETCH_CHARACTER" });
-    yield put({ type: "FETCH_BUILD" });
-    yield put({ type: "FETCH_CLASS" });
+    yield put({ type: "FETCH_USER_ALLINFO" });
   } catch (error) {
     console.log("User get request failed", error);
   }
 }
 
+function* setUserData() {
+  try {
+    yield put({ type: "FETCH_CHARACTER" });
+    yield put({ type: "FETCH_BUILD" });
+    yield put({ type: "FETCH_CLASS" });
+    yield put({ type: "FETCH_WORLD" });
+    yield put({ type: "FETCH_PARTY" });
+  } catch (error) {
+    console.log("setUserData fail", error);
+  }
+}
+
 function* userSaga() {
   yield takeLatest("FETCH_USER", fetchUser);
+  yield takeLatest("FETCH_USER_ALLINFO", setUserData);
 }
 
 export default userSaga;

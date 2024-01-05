@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function UserPage() {
-  // this component doesn't do much to start, just renders some user reducer info to the DOM
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_USER_ALLINFO",
+    });
+  }, []);
+
   const user = useSelector((store) => store.user);
   const world = useSelector((store) => store.world);
   const party = useSelector((store) => store.party);
   const character = useSelector((store) => store.character);
-
-  const history = useHistory();
-  const dispatch = useDispatch();
 
   const credits = () => {
     history.push("/credits");
@@ -30,7 +35,11 @@ function UserPage() {
 
   const editCharacter = (info) => {
     console.log("CharacterID:", info);
-    // history.push("/about");
+    dispatch({
+      type: "SET_EDIT",
+      payload: info,
+    });
+    history.push("/editCharacter");
   };
 
   const editParty = (info) => {

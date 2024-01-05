@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import "./EditParty.css";
 
 function EditParty() {
+  let dispatch = useDispatch();
+  let history = useHistory();
+
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_USER_ALLINFO",
+    });
+  }, []);
+
   const character = useSelector((store) => store.character);
   const currentParty = useSelector((store) => store.editReducer);
 
@@ -30,9 +39,6 @@ function EditParty() {
     party_name: currentParty.party_name,
     party_id: currentParty.id,
   });
-
-  let dispatch = useDispatch();
-  let history = useHistory();
 
   const editParty = () => {
     dispatch({
@@ -120,7 +126,7 @@ function EditParty() {
 
   return (
     <div>
-      <h2>Party</h2>
+      <h2>Edit Party</h2>
       <li
         id="char0Edit"
         onClick={() =>
