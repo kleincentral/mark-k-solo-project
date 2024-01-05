@@ -168,7 +168,46 @@ router.put("/", rejectUnauthenticated, (req, res) => {
         });
     })
     .catch((err) => {
-      console.log("Error in Party PUT,", err);
+      console.log("Error in Party PUT:", err);
+      res.sendStatus(500);
+    });
+});
+
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  let queryText = `
+    DELETE FROM "party_character_join"
+    WHERE "party_id" = $1
+  `;
+  pool
+    .query(queryText, [req.params.id])
+    .then((response) => {
+      queryText = `
+      UPDATE "worlds"
+      SET "party_id" = NULL
+      WHERE "party_id" = $1;`;
+      pool
+        .query(queryText, [req.params.id])
+        .then((response) => {
+          queryText = `
+          DELETE FROM "party"
+          WHERE "id" = $1;`;
+          pool
+            .query(queryText, [req.params.id])
+            .then((response) => {
+              res.sendStatus(201);
+            })
+            .catch((err) => {
+              console.log("Error in Party DELETE 'party':", err);
+              res.sendStatus(500);
+            });
+        })
+        .catch((err) => {
+          console.log("Error in Party DELETE 'party':", err);
+          res.sendStatus(500);
+        });
+    })
+    .catch((err) => {
+      console.log("Error in Party DELETE 'party_character_join':", err);
       res.sendStatus(500);
     });
 });
