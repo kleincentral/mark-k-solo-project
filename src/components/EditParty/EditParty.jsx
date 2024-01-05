@@ -37,18 +37,18 @@ function EditParty() {
   const editParty = () => {
     dispatch({
       type: "EDIT_PARTY",
-      payload: [
-        partyMembers.party_id,
-        partyMembers.party_name,
-        partyMembers.char0.character_name,
-      ],
-    });
-    setPartyMember({
-      char0: { character_id: "", character_name: "" },
-      char1: { character_id: "", character_name: "" },
-      char2: { character_id: "", character_name: "" },
-      party_name: "",
-      party_id: "",
+      payload: {
+        party_id: partyMembers.party_id,
+        party_name: partyMembers.party_name,
+        party_characters: {
+          character_0_id: partyMembers.char0.character_id,
+          character_0_joinID: partyMembers.char0.party_character_join_id,
+          character_1_id: partyMembers.char1.character_id,
+          character_1_joinID: partyMembers.char1.party_character_join_id,
+          character_2_id: partyMembers.char2.character_id,
+          character_2_joinID: partyMembers.char2.party_character_join_id,
+        },
+      },
     });
     history.push("/user");
   };
@@ -56,27 +56,57 @@ function EditParty() {
   // party character. If there isn't, it will add
   // the new character to the party.
   const addToParty = (index) => {
+    console.log(index);
+    let newInput = false;
     for (const key in partyMembers) {
       if (partyMembers[key].character_name === index.character_name) {
         alert("Cannot have two of the same character in a party!");
+        newInput = false;
         break;
       } else if (
         partyMembers[key].character_name === "" ||
         partyMembers[key].character_name === selectedChar
       ) {
-        setPartyMember((partyMembers) => ({ ...partyMembers, [key]: index }));
-        break;
+        newInput = key;
       }
     }
+    if (newInput) {
+      const newObj = {
+        party_character_join_id: partyMembers[newInput].party_character_join_id,
+        character_id: index.id,
+        character_name: index.character_name,
+      };
+      console.log("NewObject", newObj);
+      setPartyMember((partyMembers) => ({
+        ...partyMembers,
+        [newInput]: newObj,
+      }));
+      console.log("Party Members is now", partyMembers);
+      clearRed();
+    }
+  };
+
+  const clearRed = () => {
+    document
+      .getElementById(`char0Edit`)
+      .classList.remove("selectedPartyMember");
+    document
+      .getElementById(`char1Edit`)
+      .classList.remove("selectedPartyMember");
+    document
+      .getElementById(`char2Edit`)
+      .classList.remove("selectedPartyMember");
   };
 
   const deleteParty = () => {
     console.log("Delete GO!");
     console.log(partyMembers);
+    //write delete here
   };
 
   const swapCharSelectCurrent = (index, charID) => {
     console.log("index", index, "characterID", charID);
+    clearRed();
     document
       .getElementById(`${index}Edit`)
       .classList.add("selectedPartyMember");

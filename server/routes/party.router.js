@@ -27,7 +27,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
     LEFT JOIN "characters"
     ON "party_character_join".character_id = "characters".id
   WHERE "user".id = $1
-  ORDER BY "party".id;`;
+  ORDER BY "party_character_join".id;`;
   pool
     .query(queryText, [req.user.id])
     .then((result) => {
@@ -115,6 +115,60 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log("Party POST failed:", err);
+      res.sendStatus(500);
+    });
+});
+
+router.put("/", rejectUnauthenticated, (req, res) => {
+  let queryText = `
+    UPDATE "party"
+    SET "party_name" = $1
+    WHERE "id" = $2;`;
+  pool
+    .query(queryText, [req.body.party_name, req.body.party_id])
+    .then((response) => {
+      queryText = `
+      UPDATE "party_character_join"
+      SET "character_id" = $1
+      WHERE "id" = $2;`;
+      pool
+        .query(queryText, [
+          req.body.party_characters.character_0_id,
+          req.body.party_characters.character_0_joinID,
+        ])
+        .then((response) => {
+          console.log("First Update complete!");
+          pool
+            .query(queryText, [
+              req.body.party_characters.character_1_id,
+              req.body.party_characters.character_1_joinID,
+            ])
+            .then((response) => {
+              console.log("Second Update complete!");
+              pool
+                .query(queryText, [
+                  req.body.party_characters.character_2_id,
+                  req.body.party_characters.character_2_joinID,
+                ])
+                .then((response) => {
+                  console.log("Last Update complete!");
+                  console.log("Party Updated");
+                  res.sendStatus(201);
+                })
+                .catch((err) => {
+                  console.log("Error in party_character_join final PUT", err);
+                });
+            })
+            .catch((err) => {
+              console.log("Error in party_character_join second PUT", err);
+            });
+        })
+        .catch((err) => {
+          console.log("Error in party_character_join first PUT", err);
+        });
+    })
+    .catch((err) => {
+      console.log("Error in Party PUT,", err);
       res.sendStatus(500);
     });
 });
