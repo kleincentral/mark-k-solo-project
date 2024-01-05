@@ -1,4 +1,3 @@
-import { number } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -42,6 +41,7 @@ function NewWorld() {
     console.log(partyId, allParties);
     let theParty = allParties.find((party) => party.id === partyId);
     let characterIDs = theParty.characters;
+    console.log(characterIDs);
     setCurrentPartyChar(characterIDs);
   };
 
@@ -71,7 +71,7 @@ function NewWorld() {
         </select>
         <br></br>
         {currentPartyChar.map((index) => {
-          return <p>{index}</p>;
+          return <p>{index.charactername}</p>;
         })}
         <button onClick={() => toNewParty(event)}>New Party</button>
         <button onClick={() => postWorld(event)}>Depart</button>

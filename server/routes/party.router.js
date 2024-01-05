@@ -14,7 +14,9 @@ router.get("/", rejectUnauthenticated, (req, res) => {
     "party".id,
     "worlds".world_name,
     "party".party_name,
-    "characters".character_name
+    "party_character_join".id as "party_join_id",
+    "characters".character_name,
+    "characters".id as "character_id"
   FROM "party"
     LEFT JOIN "worlds"
     ON "worlds".party_id = "party".id
@@ -37,7 +39,11 @@ router.get("/", rejectUnauthenticated, (req, res) => {
         let characterRow = [];
         result.rows.map((index1) => {
           if (index.id === index1.id) {
-            characterRow.push(index1.character_name);
+            characterRow.push({
+              party_character_join_id: index1.party_join_id,
+              characterid: index1.character_id,
+              charactername: index1.character_name,
+            });
           }
         });
         let addToInput = {

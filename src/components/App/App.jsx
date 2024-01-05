@@ -22,6 +22,7 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 import NewParty from "../NewParty/NewParty";
 import NewCharacter from "../NewCharacter/NewCharacter";
 import NewWorld from "../NewWorld/NewWorld";
+import EditParty from "../EditParty/EditParty";
 
 import "./App.css";
 
@@ -93,6 +94,14 @@ function App() {
             path="/newWorld"
           >
             <NewWorld />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/editParty"
+          >
+            <EditParty />
           </ProtectedRoute>
 
           <Route exact path="/login">
