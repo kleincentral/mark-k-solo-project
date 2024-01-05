@@ -26,9 +26,23 @@ function* createParty(action) {
   }
 }
 
+function* editParty(action) {
+  try {
+    const response = yield axios({
+      method: "PUT",
+      url: `/api/party`,
+      data: action.payload,
+    });
+    yield put({ type: "FETCH_PARTY" });
+  } catch (err) {
+    console.log("Party PUT request failed", err);
+  }
+}
+
 function* partySaga() {
   yield takeLatest("FETCH_PARTY", fetchParty);
   yield takeLatest("CREATE_PARTY", createParty);
+  yield takeLatest("EDIT_PARTY", editParty);
 }
 
 export default partySaga;

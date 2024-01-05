@@ -14,7 +14,9 @@ router.get("/", rejectUnauthenticated, (req, res) => {
     "party".id,
     "worlds".world_name,
     "party".party_name,
-    "characters".character_name
+    "party_character_join".id as "party_join_id",
+    "characters".character_name,
+    "characters".id as "character_id"
   FROM "party"
     LEFT JOIN "worlds"
     ON "worlds".party_id = "party".id
@@ -25,11 +27,11 @@ router.get("/", rejectUnauthenticated, (req, res) => {
     LEFT JOIN "characters"
     ON "party_character_join".character_id = "characters".id
   WHERE "user".id = $1
-  ORDER BY "party".id;`;
+  ORDER BY "party_character_join".id;`;
   pool
     .query(queryText, [req.user.id])
     .then((result) => {
-      console.log(result.rows);
+      // console.log(result.rows);
 
       let newInput = [];
       let i = 0;
@@ -37,7 +39,11 @@ router.get("/", rejectUnauthenticated, (req, res) => {
         let characterRow = [];
         result.rows.map((index1) => {
           if (index.id === index1.id) {
-            characterRow.push(index1.character_name);
+            characterRow.push({
+              party_character_join_id: index1.party_join_id,
+              characterid: index1.character_id,
+              charactername: index1.character_name,
+            });
           }
         });
         let addToInput = {
@@ -50,7 +56,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
           typeof newInput[0] === "undefined" ||
           addToInput.id != newInput[i - 1].id
         ) {
-          console.log("Success in Input");
+          // console.log("Success in Input");
           newInput.push(addToInput);
           i++;
         }
@@ -109,6 +115,60 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log("Party POST failed:", err);
+      res.sendStatus(500);
+    });
+});
+
+router.put("/", rejectUnauthenticated, (req, res) => {
+  let queryText = `
+    UPDATE "party"
+    SET "party_name" = $1
+    WHERE "id" = $2;`;
+  pool
+    .query(queryText, [req.body.party_name, req.body.party_id])
+    .then((response) => {
+      queryText = `
+      UPDATE "party_character_join"
+      SET "character_id" = $1
+      WHERE "id" = $2;`;
+      pool
+        .query(queryText, [
+          req.body.party_characters.character_0_id,
+          req.body.party_characters.character_0_joinID,
+        ])
+        .then((response) => {
+          console.log("First Update complete!");
+          pool
+            .query(queryText, [
+              req.body.party_characters.character_1_id,
+              req.body.party_characters.character_1_joinID,
+            ])
+            .then((response) => {
+              console.log("Second Update complete!");
+              pool
+                .query(queryText, [
+                  req.body.party_characters.character_2_id,
+                  req.body.party_characters.character_2_joinID,
+                ])
+                .then((response) => {
+                  console.log("Last Update complete!");
+                  console.log("Party Updated");
+                  res.sendStatus(201);
+                })
+                .catch((err) => {
+                  console.log("Error in party_character_join final PUT", err);
+                });
+            })
+            .catch((err) => {
+              console.log("Error in party_character_join second PUT", err);
+            });
+        })
+        .catch((err) => {
+          console.log("Error in party_character_join first PUT", err);
+        });
+    })
+    .catch((err) => {
+      console.log("Error in Party PUT,", err);
       res.sendStatus(500);
     });
 });
