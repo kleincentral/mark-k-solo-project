@@ -86,6 +86,15 @@ function EditParty() {
     }
   };
 
+  const swapCharSelectCurrent = (index, charID) => {
+    console.log("index", index, "characterID", charID);
+    clearRed();
+    document
+      .getElementById(`${index}Edit`)
+      .classList.add("selectedPartyMember");
+    setSelectedChar(charID);
+  };
+
   const clearRed = () => {
     document
       .getElementById(`char0Edit`)
@@ -100,17 +109,13 @@ function EditParty() {
 
   const deleteParty = () => {
     console.log("Delete GO!");
-    console.log(partyMembers);
+    console.log(partyMembers.party_id);
     //write delete here
-  };
-
-  const swapCharSelectCurrent = (index, charID) => {
-    console.log("index", index, "characterID", charID);
-    clearRed();
-    document
-      .getElementById(`${index}Edit`)
-      .classList.add("selectedPartyMember");
-    setSelectedChar(charID);
+    dispatch({
+      type: "DELETE_PARTY",
+      payload: partyMembers.party_id,
+    });
+    history.push("/user");
   };
 
   return (

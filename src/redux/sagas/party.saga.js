@@ -39,10 +39,20 @@ function* editParty(action) {
   }
 }
 
+function* deleteParty(action) {
+  try {
+    const response = yield axios.delete(`/api/party/${action.payload}`);
+    yield put({ type: "FETCH_PARTY" });
+  } catch (err) {
+    console.log("Party DELETE request failed", err);
+  }
+}
+
 function* partySaga() {
   yield takeLatest("FETCH_PARTY", fetchParty);
   yield takeLatest("CREATE_PARTY", createParty);
   yield takeLatest("EDIT_PARTY", editParty);
+  yield takeLatest("DELETE_PARTY", deleteParty);
 }
 
 export default partySaga;
