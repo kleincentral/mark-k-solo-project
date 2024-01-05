@@ -30,7 +30,11 @@ function UserPage() {
 
   const editCharacter = (info) => {
     console.log("CharacterID:", info);
-    // history.push("/about");
+    dispatch({
+      type: "SET_EDIT",
+      payload: info,
+    });
+    history.push("/editCharacter");
   };
 
   const editParty = (info) => {

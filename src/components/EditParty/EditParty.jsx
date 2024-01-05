@@ -120,7 +120,7 @@ function EditParty() {
 
   return (
     <div>
-      <h2>Party</h2>
+      <h2>Edit Party</h2>
       <li
         id="char0Edit"
         onClick={() =>
