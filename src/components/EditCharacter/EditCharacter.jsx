@@ -24,6 +24,20 @@ function EditCharacter() {
     history.push("/user");
   };
 
+  const deleteCharacter = (event) => {
+    event.preventDefault();
+    dispatch({
+      type: "DELETE_CHARACTER",
+      payload: currentCharacter.id,
+    });
+    history.push("/user");
+  };
+
+  const goBack = (event) => {
+    event.preventDefault();
+    history.goBack();
+  };
+
   return (
     <div>
       <h2>Edit Character</h2>
@@ -34,7 +48,12 @@ function EditCharacter() {
           value={characterName}
         />
         <br></br>
+        <p>
+          A {currentCharacter.build_type} {currentCharacter.class_name}
+        </p>
+        <button onClick={() => goBack(event)}>Back</button>
         <button onClick={() => updateCharacter(event)}>Submit</button>
+        <button onClick={() => deleteCharacter(event)}>Delete</button>
       </form>
     </div>
   );
