@@ -138,22 +138,22 @@ router.put("/", rejectUnauthenticated, (req, res) => {
           req.body.party_characters.character_0_joinID,
         ])
         .then((response) => {
-          console.log("First Update complete!");
+          // console.log("First Update complete!");
           pool
             .query(queryText, [
               req.body.party_characters.character_1_id,
               req.body.party_characters.character_1_joinID,
             ])
             .then((response) => {
-              console.log("Second Update complete!");
+              // console.log("Second Update complete!");
               pool
                 .query(queryText, [
                   req.body.party_characters.character_2_id,
                   req.body.party_characters.character_2_joinID,
                 ])
                 .then((response) => {
-                  console.log("Last Update complete!");
-                  console.log("Party Updated");
+                  // console.log("Last Update complete!");
+                  // console.log("Party Updated");
                   res.sendStatus(201);
                 })
                 .catch((err) => {
