@@ -24,6 +24,7 @@ import NewCharacter from "../NewCharacter/NewCharacter";
 import NewWorld from "../NewWorld/NewWorld";
 import EditParty from "../EditParty/EditParty";
 import EditCharacter from "../EditCharacter/EditCharacter";
+import EditWorld from "../EditWorld/EditWorld";
 
 import "./App.css";
 
@@ -111,6 +112,14 @@ function App() {
             path="/editCharacter"
           >
             <EditCharacter />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/editWorld"
+          >
+            <EditWorld />
           </ProtectedRoute>
 
           <Route exact path="/login">

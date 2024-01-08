@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-function NewWorld() {
+function EditWorld() {
   const allParties = useSelector((store) => store.party);
   const allCharacters = useSelector((store) => store.character);
+  const currentParty = useSelector((store) => store.editReducer);
 
   let [currentPartyChar, setCurrentPartyChar] = useState([]);
-  let [worldName, setWorldName] = useState("");
-  let [partyID, setPartyID] = useState(allParties[0].id);
+  let [worldName, setWorldName] = useState(currentParty.world_name);
+  let [partyID, setPartyID] = useState(currentParty.party_id);
 
   let history = useHistory();
   let dispatch = useDispatch();
@@ -22,18 +23,28 @@ function NewWorld() {
   const postWorld = (event) => {
     event.preventDefault();
     dispatch({
-      type: "CREATE_WORLD",
+      type: "EDIT_WORLD",
       payload: {
         worldName,
         partyID,
+        currentWorldID: currentParty.id,
       },
     });
     history.push("/user");
   };
 
-  const toNewParty = (event) => {
+  const goBack = (event) => {
     event.preventDefault();
-    history.push("/newParty");
+    history.goBack();
+  };
+
+  const deleteWorld = (event) => {
+    event.preventDefault();
+    dispatch({
+      type: "DELETE_WORLD",
+      payload: partyID,
+    });
+    history.push("/user");
   };
 
   const getCharactersFromParty = (partyId) => {
@@ -52,7 +63,7 @@ function NewWorld() {
 
   return (
     <div>
-      <h2>Create Your World!</h2>
+      <h2>Load World!</h2>
       <form>
         <input
           value={worldName}
@@ -61,6 +72,9 @@ function NewWorld() {
         />
         <br></br>
         <select value={partyID} onChange={() => handlePartyChange(event)}>
+          <option key="null" value={null}>
+            ---
+          </option>
           {allParties.map((index) => {
             return (
               <option key={index.id} value={index.id}>
@@ -73,11 +87,12 @@ function NewWorld() {
         {currentPartyChar.map((index) => {
           return <p>{index.charactername}</p>;
         })}
-        <button onClick={() => toNewParty(event)}>New Party</button>
+        <button onClick={() => goBack(event)}>Back</button>
         <button onClick={() => postWorld(event)}>Depart</button>
+        <button onClick={() => deleteWorld(event)}>Delete World</button>
       </form>
     </div>
   );
 }
 
-export default NewWorld;
+export default EditWorld;
