@@ -53,7 +53,11 @@ function UserPage() {
 
   const editWorld = (info) => {
     console.log("WorldID:", info);
-    // history.push("/about");
+    dispatch({
+      type: "SET_EDIT",
+      payload: info,
+    });
+    history.push("/editWorld");
   };
 
   return (

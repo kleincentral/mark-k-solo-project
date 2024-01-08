@@ -12,6 +12,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
   const queryText = `
   SELECT 
     "party".id,
+    "worlds".id as world_id,
     "worlds".world_name,
     "party".party_name,
     "party_character_join".id as "party_join_id",
@@ -38,7 +39,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
       for (index of result.rows) {
         let characterRow = [];
         result.rows.map((index1) => {
-          if (index.id === index1.id) {
+          if (index.world_id === index1.world_id) {
             characterRow.push({
               party_character_join_id: index1.party_join_id,
               characterid: index1.character_id,
