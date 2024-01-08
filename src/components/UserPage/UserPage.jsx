@@ -63,7 +63,7 @@ function UserPage() {
   return (
     <div className="container">
       <h2>Welcome, {user.username}!</h2>
-      <p>Your ID is: {user.id}</p>
+      {/* <p>Your ID is: {user.id}</p> */}
       <button onClick={newParty}>New Party</button>
       {party[0] &&
         party.map((index) => {

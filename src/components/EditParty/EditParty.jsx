@@ -11,6 +11,7 @@ function EditParty() {
     dispatch({
       type: "FETCH_USER_ALLINFO",
     });
+    console.log("partyMembers", partyMembers);
   }, []);
 
   const character = useSelector((store) => store.character);
@@ -74,7 +75,8 @@ function EditParty() {
         break;
       } else if (
         partyMembers[key].character_name === "" ||
-        partyMembers[key].character_name === selectedChar
+        partyMembers[key].character_name === selectedChar ||
+        typeof partyMembers[key].character_name === "object"
       ) {
         newInput = key;
         break;

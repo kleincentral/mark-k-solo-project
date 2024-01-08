@@ -49,9 +49,8 @@ function EditCharacter() {
           value={characterName}
         />
         <br></br>
-        <p>
-          A {currentCharacter.build_type} {currentCharacter.class_name}
-        </p>
+        <p>Body Type: {currentCharacter.build_type}</p>
+        <p>Class: {currentCharacter.class_name}</p>
         <button onClick={() => goBack(event)}>Back</button>
         <button onClick={() => updateCharacter(event)}>Submit</button>
         <button onClick={() => deleteCharacter(event)}>Delete</button>
