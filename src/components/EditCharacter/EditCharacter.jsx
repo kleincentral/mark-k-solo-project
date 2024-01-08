@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 function EditCharacter() {
   const currentCharacter = useSelector((store) => store.editReducer);
 
+  let [selectedChar, setSelectedChar] = useState("");
   let [characterName, setCharacterName] = useState(
     currentCharacter.character_name
   );

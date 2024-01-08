@@ -65,7 +65,10 @@ function EditParty() {
     console.log(index);
     let newInput = false;
     for (const key in partyMembers) {
-      if (partyMembers[key].character_name === index.character_name) {
+      if (
+        partyMembers[key].character_name === index.character_name &&
+        index.character_name != ""
+      ) {
         alert("Cannot have two of the same character in a party!");
         newInput = false;
         break;
@@ -74,6 +77,7 @@ function EditParty() {
         partyMembers[key].character_name === selectedChar
       ) {
         newInput = key;
+        break;
       }
     }
     if (newInput) {
@@ -82,18 +86,19 @@ function EditParty() {
         character_id: index.id,
         character_name: index.character_name,
       };
-      console.log("NewObject", newObj);
+      // console.log("NewObject", newObj);
       setPartyMember((partyMembers) => ({
         ...partyMembers,
         [newInput]: newObj,
       }));
-      console.log("Party Members is now", partyMembers);
+      // console.log("Party Members is now", partyMembers);
+      setSelectedChar("");
       clearRed();
     }
   };
 
   const swapCharSelectCurrent = (index, charID) => {
-    console.log("index", index, "characterID", charID);
+    // console.log("index", index, "characterID", charID);
     clearRed();
     document
       .getElementById(`${index}Edit`)
@@ -111,6 +116,18 @@ function EditParty() {
     document
       .getElementById(`char2Edit`)
       .classList.remove("selectedPartyMember");
+  };
+
+  const remove = () => {
+    // console.log("Remove", selectedChar);
+    if (partyMembers.char0.character_name === selectedChar) {
+      partyMembers.char0.character_name = "";
+    } else if (partyMembers.char1.character_name === selectedChar) {
+      partyMembers.char1.character_name = "";
+    } else if (partyMembers.char2.character_name === selectedChar) {
+      partyMembers.char2.character_name = "";
+    }
+    addToParty({ character_name: "" });
   };
 
   const deleteParty = () => {
@@ -151,6 +168,7 @@ function EditParty() {
       >
         Character 3: {partyMembers.char2.character_name}
       </li>
+      {selectedChar != "" && <button onClick={remove}>Remove Character</button>}
       <h2>Characters</h2>
       {character[0] &&
         character.map((index) => {

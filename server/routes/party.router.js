@@ -39,7 +39,20 @@ router.get("/", rejectUnauthenticated, (req, res) => {
       for (index of result.rows) {
         let characterRow = [];
         result.rows.map((index1) => {
-          if (index.world_id === index1.world_id) {
+          if (
+            index.world_id === index1.world_id &&
+            typeof index.world_id != "object"
+          ) {
+            // console.log(typeof index.world_id);
+            characterRow.push({
+              party_character_join_id: index1.party_join_id,
+              characterid: index1.character_id,
+              charactername: index1.character_name,
+            });
+          } else if (
+            index.id === index1.id &&
+            typeof index.world_id === "object"
+          ) {
             characterRow.push({
               party_character_join_id: index1.party_join_id,
               characterid: index1.character_id,
@@ -72,9 +85,11 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 
 router.post("/", rejectUnauthenticated, (req, res) => {
   const party_name = req.body.party_name;
-  const char0 = req.body.char0.id;
-  const char1 = req.body.char1.id;
-  const char2 = req.body.char2.id;
+  const char0 = req.body.char0.character_id;
+  const char1 = req.body.char1.character_id;
+  const char2 = req.body.char2.character_id;
+
+  console.log(char0, char1, char2);
 
   let queryText = `
     INSERT INTO "party"

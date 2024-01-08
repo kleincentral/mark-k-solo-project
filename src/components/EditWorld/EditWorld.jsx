@@ -9,6 +9,7 @@ function EditWorld() {
   let [currentPartyChar, setCurrentPartyChar] = useState([]);
   let [worldName, setWorldName] = useState(currentParty.world_name);
   let [partyID, setPartyID] = useState(currentParty.party_id);
+  let [deletedParty, setDeletedParty] = useState(false);
 
   let history = useHistory();
   let dispatch = useDispatch();
@@ -16,6 +17,9 @@ function EditWorld() {
   useEffect(() => {
     if (partyID) {
       getCharactersFromParty(partyID);
+    } else {
+      setDeletedParty(true);
+      getCharactersFromParty(allParties[0].id);
     }
   }, []);
 
@@ -56,6 +60,7 @@ function EditWorld() {
   };
 
   const handlePartyChange = (event) => {
+    setDeletedParty(false);
     setPartyID(event.target.value);
     getCharactersFromParty(event.target.value);
   };
@@ -63,6 +68,12 @@ function EditWorld() {
   return (
     <div>
       <h2>Do you want to load this World?</h2>
+      {deletedParty && (
+        <h3>
+          The party which was in {worldName} no longer exists! Select a new
+          party, or proceed with the filled in party.
+        </h3>
+      )}
       <form>
         <input
           value={worldName}
@@ -71,9 +82,6 @@ function EditWorld() {
         />
         <br></br>
         <select value={partyID} onChange={() => handlePartyChange(event)}>
-          <option key="null" value={null}>
-            ---
-          </option>
           {allParties.map((index) => {
             return (
               <option key={index.id} value={index.id}>
