@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function EditWorld() {
   const allParties = useSelector((store) => store.party);
-  const allCharacters = useSelector((store) => store.character);
   const currentParty = useSelector((store) => store.editReducer);
 
   let [currentPartyChar, setCurrentPartyChar] = useState([]);
@@ -33,18 +32,18 @@ function EditWorld() {
     history.push("/user");
   };
 
-  const goBack = (event) => {
-    event.preventDefault();
-    history.goBack();
-  };
-
   const deleteWorld = (event) => {
     event.preventDefault();
     dispatch({
       type: "DELETE_WORLD",
-      payload: partyID,
+      payload: currentParty.id,
     });
     history.push("/user");
+  };
+
+  const goBack = (event) => {
+    event.preventDefault();
+    history.goBack();
   };
 
   const getCharactersFromParty = (partyId) => {
@@ -63,7 +62,7 @@ function EditWorld() {
 
   return (
     <div>
-      <h2>Load World!</h2>
+      <h2>Do you want to load this World?</h2>
       <form>
         <input
           value={worldName}

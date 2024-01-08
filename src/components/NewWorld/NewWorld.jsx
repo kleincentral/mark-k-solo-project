@@ -38,10 +38,10 @@ function NewWorld() {
 
   const getCharactersFromParty = (partyId) => {
     partyId = Number(partyId);
-    // console.log(partyId, allParties);
+    console.log(partyId, allParties);
     let theParty = allParties.find((party) => party.id === partyId);
     let characterIDs = theParty.characters;
-    // console.log(characterIDs);
+    console.log(characterIDs);
     setCurrentPartyChar(characterIDs);
   };
 
