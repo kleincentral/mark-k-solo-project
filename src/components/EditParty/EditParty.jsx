@@ -79,7 +79,6 @@ function EditParty() {
         typeof partyMembers[key].character_name === "object"
       ) {
         newInput = key;
-        break;
       }
     }
     if (newInput) {

@@ -1,0 +1,15 @@
+.flexBoxUserPage {
+    display: flex;
+    flex-wrap: flex;
+    justify-content: center;
+}
+
+.flexItemUserPage {
+    margin-inline: 10%;
+}
+
+
+.creditsbtn {
+    margin-top: 10px;
+    text-align: center;
+}
