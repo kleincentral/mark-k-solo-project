@@ -183,6 +183,7 @@ function EditParty() {
       <form>
         <label>Party Name</label>
         <input
+          maxLength={50}
           onChange={() =>
             setPartyMember((partyMembers) => ({
               ...partyMembers,

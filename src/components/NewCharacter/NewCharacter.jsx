@@ -34,6 +34,7 @@ function NewCharacter() {
       <h2>Create A Character</h2>
       <form>
         <input
+          maxLength={100}
           value={characterName}
           placeholder="Character Name"
           onChange={() => setCharacterName(event.target.value)}

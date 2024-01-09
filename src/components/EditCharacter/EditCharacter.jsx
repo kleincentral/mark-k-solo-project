@@ -45,6 +45,7 @@ function EditCharacter() {
       <p>Character Name:</p>
       <form>
         <input
+          maxLength={100}
           onChange={() => setCharacterName(() => event.target.value)}
           value={characterName}
         />

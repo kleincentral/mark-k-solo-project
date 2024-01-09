@@ -55,6 +55,7 @@ function NewWorld() {
       <h2>Create Your World!</h2>
       <form>
         <input
+          maxLength={100}
           value={worldName}
           placeholder="World Name"
           onChange={() => setWorldName(event.target.value)}

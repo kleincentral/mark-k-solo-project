@@ -142,6 +142,7 @@ function NewParty() {
       <form>
         <label>Name Your Party</label>
         <input
+          maxLength={50}
           onChange={() =>
             setPartyMember((partyMembers) => ({
               ...partyMembers,
