@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import "./EditWorld.css";
 
 function EditWorld() {
   const allParties = useSelector((store) => store.party);
@@ -20,6 +21,7 @@ function EditWorld() {
     } else {
       setDeletedParty(true);
       getCharactersFromParty(allParties[0].id);
+      setPartyID(allParties[0].id);
     }
   }, []);
 
@@ -69,8 +71,8 @@ function EditWorld() {
     <div>
       <h2>Do you want to load this World?</h2>
       {deletedParty && (
-        <h3>
-          The party which was in {worldName} no longer exists! Select a new
+        <h3 className="warningText">
+          The party which was in "{worldName}" no longer exists! Select a new
           party, or proceed with the filled in party.
         </h3>
       )}

@@ -6,9 +6,9 @@ const pool = require("../modules/pool");
 
 const router = express.Router();
 
-// Handles Ajax request for user information if user is authenticated
 router.get("/", rejectUnauthenticated, (req, res) => {
-  // Send back world object from the session (previously queried from the database)
+  // This join is to get the party with their respective characters, since whenever we access a Party we want the
+  // characters related to the party.
   const queryText = `
   SELECT 
     "party".id,
@@ -28,7 +28,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
     LEFT JOIN "characters"
     ON "party_character_join".character_id = "characters".id
   WHERE "user".id = $1
-  ORDER BY "party_character_join".id;`;
+  ORDER BY "party_character_join".id, "worlds".id;`;
   pool
     .query(queryText, [req.user.id])
     .then((result) => {
@@ -40,19 +40,11 @@ router.get("/", rejectUnauthenticated, (req, res) => {
         let characterRow = [];
         result.rows.map((index1) => {
           if (
-            index.world_id === index1.world_id &&
-            typeof index.world_id != "object"
+            (index.world_id === index1.world_id &&
+              typeof index.world_id != "object") ||
+            (index.id === index1.id && typeof index.world_id === "object")
           ) {
             // console.log(typeof index.world_id);
-            characterRow.push({
-              party_character_join_id: index1.party_join_id,
-              characterid: index1.character_id,
-              charactername: index1.character_name,
-            });
-          } else if (
-            index.id === index1.id &&
-            typeof index.world_id === "object"
-          ) {
             characterRow.push({
               party_character_join_id: index1.party_join_id,
               characterid: index1.character_id,
@@ -67,7 +59,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
           characters: [characterRow[0], characterRow[1], characterRow[2]],
         };
         if (
-          typeof newInput[0] === "undefined" ||
+          typeof newInput[0] === "undefined" || // <-- Checking inputs to prevent duplicate information from being added.
           addToInput.id != newInput[i - 1].id
         ) {
           // console.log("Success in Input");
@@ -88,8 +80,6 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   const char0 = req.body.char0.character_id;
   const char1 = req.body.char1.character_id;
   const char2 = req.body.char2.character_id;
-
-  console.log(char0, char1, char2);
 
   let queryText = `
     INSERT INTO "party"

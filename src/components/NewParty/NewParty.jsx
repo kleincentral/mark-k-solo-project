@@ -10,6 +10,7 @@ function NewParty() {
     party_name: "",
   });
   let [selectedChar, setSelectedChar] = useState("");
+  // let [ready, setReady] = useState(false);
 
   const character = useSelector((store) => store.character);
 
@@ -17,6 +18,7 @@ function NewParty() {
   let history = useHistory();
 
   const postParty = () => {
+    // if (ready) {
     dispatch({
       type: "CREATE_PARTY",
       payload: partyMembers,
@@ -28,6 +30,8 @@ function NewParty() {
       party_name: "",
     });
     history.push("/user");
+    // }
+    // console.log("Not Ready");
   };
   // This function first finds if there is a repeating
   // party character. If there isn't, it will add
@@ -66,6 +70,16 @@ function NewParty() {
       setSelectedChar("");
       clearRed();
     }
+    // if (
+    //   (partyMembers.char0.character != null ||
+    //     partyMembers.char0.character != "") &&
+    //   (partyMembers.char1.character != null ||
+    //     partyMembers.char1.character != "") &&
+    //   (partyMembers.char2.character != null ||
+    //     partyMembers.char2.character != "")
+    // ) {
+    //   console.log("Things are filled");
+    // }
   };
 
   const swapCharSelectCurrent = (index, charID) => {

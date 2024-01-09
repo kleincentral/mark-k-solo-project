@@ -63,7 +63,7 @@ function EditParty() {
   // party character. If there isn't, it will add
   // the new character to the party.
   const addToParty = (index) => {
-    console.log(index);
+    // console.log(index);
     let newInput = false;
     for (const key in partyMembers) {
       if (
@@ -78,7 +78,9 @@ function EditParty() {
         partyMembers[key].character_name === selectedChar ||
         typeof partyMembers[key].character_name === "object"
       ) {
-        newInput = key;
+        if (!newInput) {
+          newInput = key;
+        }
       }
     }
     if (newInput) {
@@ -123,10 +125,13 @@ function EditParty() {
     // console.log("Remove", selectedChar);
     if (partyMembers.char0.character_name === selectedChar) {
       partyMembers.char0.character_name = "";
+      partyMembers.char0.character_id = undefined;
     } else if (partyMembers.char1.character_name === selectedChar) {
       partyMembers.char1.character_name = "";
+      partyMembers.char1.character_id = undefined;
     } else if (partyMembers.char2.character_name === selectedChar) {
       partyMembers.char2.character_name = "";
+      partyMembers.char2.character_id = undefined;
     }
     addToParty({ character_name: "" });
   };
