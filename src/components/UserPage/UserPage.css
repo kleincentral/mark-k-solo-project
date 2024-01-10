@@ -7,11 +7,22 @@
 .flexItemUserPage {
     margin-inline: 10%;
     text-align: center;
-    max-width: 180px;
+    width: 180px;
 }
 
+.longButton {
+    width: 180px;
+    background-color: seashell;
+    box-shadow: 2px 2px 2px gray;
+}
 
-.creditsbtn {
-    margin-top: 10px;
+footer {
+    margin-top: 80px;
+    padding: 20px;
     text-align: center;
 }
+
+/* .creditsbtn {
+    margin-top: 10px;
+    text-align: center;
+} */

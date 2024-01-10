@@ -13,8 +13,8 @@ function NewCharacter() {
   let dispatch = useDispatch();
   let history = useHistory();
 
-  const postCharacter = (event) => {
-    event.preventDefault();
+  const postCharacter = (e) => {
+    e.preventDefault();
     dispatch({
       type: "CREATE_CHARACTER",
       payload: {
@@ -28,6 +28,11 @@ function NewCharacter() {
   // This function first finds if there is a repeating
   // party character. If there isn't, it will add
   // the new character to the party.
+
+  const goHome = (e) => {
+    e.preventDefault();
+    history.push("/user");
+  };
 
   return (
     <div>
@@ -79,7 +84,8 @@ function NewCharacter() {
             })}
         </select>
         <br></br>
-        <button onClick={() => postCharacter(event)}>Submit</button>
+        <button onClick={goHome}>Home</button>
+        <button onClick={postCharacter}>Submit</button>
       </form>
     </div>
   );

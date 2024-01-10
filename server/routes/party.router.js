@@ -59,8 +59,8 @@ router.get("/", rejectUnauthenticated, (req, res) => {
           characters: [characterRow[0], characterRow[1], characterRow[2]],
         };
         if (
-          typeof newInput[0] === "undefined" || // <-- Checking inputs to prevent duplicate information from being added.
-          addToInput.id != newInput[i - 1].id
+          typeof newInput[0] === "undefined" || // <-- Checks to see if you even have anything to check duplicate info against
+          addToInput.id != newInput[i - 1].id // <-- Checking inputs to prevent duplicate information from being added.
         ) {
           // console.log("Success in Input");
           newInput.push(addToInput);

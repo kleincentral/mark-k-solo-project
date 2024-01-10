@@ -63,44 +63,46 @@ function UserPage() {
 
   return (
     <div>
-      <h2>Welcome, {user.username}!</h2>
+      <h2 className="container">Welcome, {user.username}!</h2>
       {/* <p>Your ID is: {user.id}</p> */}
       <div className="flexBoxUserPage">
         <div className="flexItemUserPage">
-          <button onClick={newParty}>New Party</button>
+          <button className="longButton" onClick={newParty}>
+            New Party
+          </button>
           {party[0] &&
             party.map((index) => {
-              return (
-                <li onClick={() => editParty(index)}>{index.party_name}</li>
-              );
+              return <p onClick={() => editParty(index)}>{index.party_name}</p>;
             })}
         </div>
         <div className="flexItemUserPage">
-          <button onClick={newChar}>New Character</button>
+          <button className="longButton" onClick={newChar}>
+            New Character
+          </button>
           {character[0] &&
             character.map((index) => {
               return (
-                <li onClick={() => editCharacter(index)}>
+                <p onClick={() => editCharacter(index)}>
                   {index.character_name}
-                </li>
+                </p>
               );
             })}
         </div>
         <div className="flexItemUserPage">
-          <button onClick={newWorld}>New World</button>
+          <button className="longButton" onClick={newWorld}>
+            New World
+          </button>
           {world[0] &&
             world.map((index) => {
-              return (
-                <li onClick={() => editWorld(index)}>{index.world_name}</li>
-              );
+              return <p onClick={() => editWorld(index)}>{index.world_name}</p>;
             })}
         </div>
       </div>
-      <div className="creditsbtn">
+      <footer className="creditsbtn">
         <button className="btn" onClick={credits}>
           Credits
         </button>
-      </div>
+      </footer>
     </div>
   );
 }

@@ -166,7 +166,7 @@ function NewParty() {
           value={partyMembers.party_name}
         />
       </form>
-      <button onClick={() => history.goBack()}>Back</button>
+      <button onClick={() => history.push("/user")}>Home</button>
       <button onClick={() => history.push("/newCharacter")}>
         Create Character
       </button>
