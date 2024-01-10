@@ -15,7 +15,7 @@ function NewWorld() {
   let dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(partyID);
+    // console.log(partyID);
     if (allParties[0]) {
       getCharactersFromParty(allParties[0].id);
       setPartyID(allParties[0].id);
@@ -57,29 +57,40 @@ function NewWorld() {
 
   return (
     <div>
-      <h2>Create Your World!</h2>
+      <h2 className="centered">Create Your World!</h2>
       {!anyParties && (
-        <div>
-          <h4>
+        <div className="centered">
+          <h3>
             It seems like you don't have any parties, would you like to go and
             create one?
-          </h4>
-          <button onClick={() => history.goBack()}>Back</button>
-          <button onClick={() => history.push("/newParty")}>
+          </h3>
+          <br></br>
+          <button className="longButton" onClick={() => history.goBack()}>
+            Back
+          </button>
+          <button
+            className="longButton"
+            onClick={() => history.push("/newParty")}
+          >
             Create a New Party
           </button>
         </div>
       )}
       {anyParties && (
-        <form>
+        <form className="centered characterForm">
           <input
+            className="selectInput"
             maxLength={100}
             value={worldName}
             placeholder="World Name"
             onChange={() => setWorldName(event.target.value)}
           />
           <br></br>
-          <select value={partyID} onChange={() => handlePartyChange(event)}>
+          <select
+            className="selectInput"
+            value={partyID}
+            onChange={() => handlePartyChange(event)}
+          >
             {allParties.map((index) => {
               return (
                 <option key={index.id} value={index.id}>
@@ -92,8 +103,18 @@ function NewWorld() {
           {currentPartyChar.map((index) => {
             return <p>{index.charactername}</p>;
           })}
-          <button onClick={() => toNewParty(event)}>New Party</button>
-          <button onClick={() => postWorld(event)}>Depart</button>
+          <button
+            className="mediumButton"
+            onClick={() => history.push("/user")}
+          >
+            Home
+          </button>
+          <button className="mediumButton" onClick={() => toNewParty(event)}>
+            New Party
+          </button>
+          <button className="mediumButton" onClick={() => postWorld(event)}>
+            Depart
+          </button>
         </form>
       )}
     </div>

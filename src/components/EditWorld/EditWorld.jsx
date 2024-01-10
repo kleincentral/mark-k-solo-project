@@ -75,36 +75,48 @@ function EditWorld() {
   return (
     <div>
       <div>
-        <h2>Do you want to load this World?</h2>
+        <h2 className="centered">Do you want to load this World?</h2>
         {deletedParty && (
-          <h3 className="warningText">
+          <h3 className="warningText centered">
             The party which was in "{worldName}" no longer exists! Select a new
             party, or proceed with the filled in party.
           </h3>
         )}
         {!anyParties && (
-          <div>
+          <div className="centered">
             <h4>
               It seems like you don't have any parties, would you like to go and
               create one?
             </h4>
-            <button onClick={() => history.goBack()}>Back</button>
-            <button onClick={() => history.push("/newParty")}>
+            <button className="longButton" onClick={() => history.goBack()}>
+              Back
+            </button>
+            <button
+              className="longButton"
+              onClick={() => history.push("/newParty")}
+            >
               Create a New Party
             </button>
-            <button onClick={() => deleteWorld(event)}>Delete World</button>
+            <button className="longButton" onClick={() => deleteWorld(event)}>
+              Delete World
+            </button>
           </div>
         )}
         {anyParties && (
-          <form>
+          <form className="centered characterForm">
             <input
+              className="selectInput"
               maxLength={100}
               value={worldName}
               placeholder="World Name"
               onChange={() => setWorldName(event.target.value)}
             />
             <br></br>
-            <select value={partyID} onChange={() => handlePartyChange(event)}>
+            <select
+              className="selectInput"
+              value={partyID}
+              onChange={() => handlePartyChange(event)}
+            >
               {allParties.map((index) => {
                 return (
                   <option key={index.id} value={index.id}>
@@ -117,9 +129,15 @@ function EditWorld() {
             {currentPartyChar.map((index) => {
               return <p>{index.charactername}</p>;
             })}
-            <button onClick={() => goBack(event)}>Back</button>
-            <button onClick={() => postWorld(event)}>Depart</button>
-            <button onClick={() => deleteWorld(event)}>Delete World</button>
+            <button className="mediumButton" onClick={() => goBack(event)}>
+              Back
+            </button>
+            <button className="mediumButton" onClick={() => postWorld(event)}>
+              Depart
+            </button>
+            <button className="mediumButton" onClick={() => deleteWorld(event)}>
+              Delete World
+            </button>
           </form>
         )}
       </div>
