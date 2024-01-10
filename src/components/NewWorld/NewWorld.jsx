@@ -8,14 +8,19 @@ function NewWorld() {
 
   let [currentPartyChar, setCurrentPartyChar] = useState([]);
   let [worldName, setWorldName] = useState("");
-  let [partyID, setPartyID] = useState(allParties[0].id);
+  let [partyID, setPartyID] = useState("");
+  let [anyParties, setAnyParties] = useState(true);
 
   let history = useHistory();
   let dispatch = useDispatch();
 
   useEffect(() => {
-    if (partyID) {
-      getCharactersFromParty(partyID);
+    console.log(partyID);
+    if (allParties[0]) {
+      getCharactersFromParty(allParties[0].id);
+      setPartyID(allParties[0].id);
+    } else {
+      setAnyParties(false);
     }
   }, []);
 
@@ -38,10 +43,10 @@ function NewWorld() {
 
   const getCharactersFromParty = (partyId) => {
     partyId = Number(partyId);
-    console.log(partyId, allParties);
+    // console.log(partyId, allParties);
     let theParty = allParties.find((party) => party.id === partyId);
     let characterIDs = theParty.characters;
-    console.log(characterIDs);
+    // console.log(characterIDs);
     setCurrentPartyChar(characterIDs);
   };
 
@@ -53,30 +58,44 @@ function NewWorld() {
   return (
     <div>
       <h2>Create Your World!</h2>
-      <form>
-        <input
-          maxLength={100}
-          value={worldName}
-          placeholder="World Name"
-          onChange={() => setWorldName(event.target.value)}
-        />
-        <br></br>
-        <select value={partyID} onChange={() => handlePartyChange(event)}>
-          {allParties.map((index) => {
-            return (
-              <option key={index.id} value={index.id}>
-                {index.party_name}
-              </option>
-            );
+      {!anyParties && (
+        <div>
+          <h4>
+            It seems like you don't have any parties, would you like to go and
+            create one?
+          </h4>
+          <button onClick={() => history.goBack()}>Back</button>
+          <button onClick={() => history.push("/newParty")}>
+            Create a New Party
+          </button>
+        </div>
+      )}
+      {anyParties && (
+        <form>
+          <input
+            maxLength={100}
+            value={worldName}
+            placeholder="World Name"
+            onChange={() => setWorldName(event.target.value)}
+          />
+          <br></br>
+          <select value={partyID} onChange={() => handlePartyChange(event)}>
+            {allParties.map((index) => {
+              return (
+                <option key={index.id} value={index.id}>
+                  {index.party_name}
+                </option>
+              );
+            })}
+          </select>
+          <br></br>
+          {currentPartyChar.map((index) => {
+            return <p>{index.charactername}</p>;
           })}
-        </select>
-        <br></br>
-        {currentPartyChar.map((index) => {
-          return <p>{index.charactername}</p>;
-        })}
-        <button onClick={() => toNewParty(event)}>New Party</button>
-        <button onClick={() => postWorld(event)}>Depart</button>
-      </form>
+          <button onClick={() => toNewParty(event)}>New Party</button>
+          <button onClick={() => postWorld(event)}>Depart</button>
+        </form>
+      )}
     </div>
   );
 }

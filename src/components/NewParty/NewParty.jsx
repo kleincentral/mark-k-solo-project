@@ -70,16 +70,6 @@ function NewParty() {
       setSelectedChar("");
       clearRed();
     }
-    // if (
-    //   (partyMembers.char0.character != null ||
-    //     partyMembers.char0.character != "") &&
-    //   (partyMembers.char1.character != null ||
-    //     partyMembers.char1.character != "") &&
-    //   (partyMembers.char2.character != null ||
-    //     partyMembers.char2.character != "")
-    // ) {
-    //   console.log("Things are filled");
-    // }
   };
 
   const swapCharSelectCurrent = (index, charID) => {
@@ -117,60 +107,76 @@ function NewParty() {
 
   return (
     <div>
-      <h2>Party</h2>
-      <li
-        id="char0Edit"
-        onClick={() =>
-          swapCharSelectCurrent("char0", partyMembers.char0.character_name)
-        }
-      >
-        Character 1: {partyMembers.char0.character_name}
-      </li>
-      <li
-        id="char1Edit"
-        onClick={() =>
-          swapCharSelectCurrent("char1", partyMembers.char1.character_name)
-        }
-      >
-        Character 2: {partyMembers.char1.character_name}
-      </li>
-      <li
-        id="char2Edit"
-        onClick={() =>
-          swapCharSelectCurrent("char2", partyMembers.char2.character_name)
-        }
-      >
-        Character 3: {partyMembers.char2.character_name}
-      </li>
-      {selectedChar != "" && <button onClick={remove}>Remove Character</button>}
-      <h2>Characters</h2>
-      {character[0] &&
-        character.map((index) => {
-          return (
-            <li key={index.id} onClick={() => addToParty(index)}>
-              {index.character_name}
-            </li>
-          );
-        })}
-
-      <form>
-        <label>Name Your Party</label>
-        <input
-          maxLength={50}
-          onChange={() =>
-            setPartyMember((partyMembers) => ({
-              ...partyMembers,
-              party_name: event.target.value,
-            }))
-          }
-          value={partyMembers.party_name}
-        />
-      </form>
-      <button onClick={() => history.push("/user")}>Home</button>
-      <button onClick={() => history.push("/newCharacter")}>
-        Create Character
-      </button>
-      <button onClick={postParty}>Save</button>
+      <div className="flexBoxUserPage">
+        <div className="flexItemUserPage">
+          <h2>Party</h2>
+          <p
+            id="char0Edit"
+            onClick={() =>
+              swapCharSelectCurrent("char0", partyMembers.char0.character_name)
+            }
+          >
+            Character 1: {partyMembers.char0.character_name}
+          </p>
+          <p
+            id="char1Edit"
+            onClick={() =>
+              swapCharSelectCurrent("char1", partyMembers.char1.character_name)
+            }
+          >
+            Character 2: {partyMembers.char1.character_name}
+          </p>
+          <p
+            id="char2Edit"
+            onClick={() =>
+              swapCharSelectCurrent("char2", partyMembers.char2.character_name)
+            }
+          >
+            Character 3: {partyMembers.char2.character_name}
+          </p>
+          {selectedChar != "" && (
+            <button onClick={remove}>Remove Character</button>
+          )}
+        </div>
+        <div className="flexItemUserPage">
+          <h2>Characters</h2>
+          {character[0] &&
+            character.map((index) => {
+              return (
+                <p key={index.id} onClick={() => addToParty(index)}>
+                  {index.character_name}
+                </p>
+              );
+            })}
+        </div>
+      </div>
+      <footer>
+        <form>
+          <label>Name Your Party</label>
+          <input
+            maxLength={50}
+            onChange={() =>
+              setPartyMember((partyMembers) => ({
+                ...partyMembers,
+                party_name: event.target.value,
+              }))
+            }
+            value={partyMembers.party_name}
+          />
+        </form>
+        <button className="mediumButton" onClick={() => history.push("/user")}>
+          Home
+        </button>
+        <button
+          className="mediumButton"
+          onClick={() => history.push("/newCharacter")}
+        >
+          Create Character
+        </button>
+        <button className="mediumButton" onClick={postParty}>
+          Save
+        </button>
+      </footer>
     </div>
   );
 }

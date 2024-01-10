@@ -16,6 +16,12 @@
     box-shadow: 2px 2px 2px gray;
 }
 
+.mediumButton {
+    width: 120px;
+    background-color: seashell;
+    box-shadow: 1.5px 1.5px 1.5px gray;
+}
+
 footer {
     margin-top: 80px;
     padding: 20px;
