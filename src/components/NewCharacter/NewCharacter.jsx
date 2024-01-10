@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import "./NewCharacter.css";
 
 function NewCharacter() {
   let [characterName, setCharacterName] = useState("");
@@ -36,9 +37,10 @@ function NewCharacter() {
 
   return (
     <div>
-      <h2>Create A Character</h2>
-      <form>
+      <h2 className="centered">Create A Character</h2>
+      <form className="centered characterForm">
         <input
+          className="selectInput"
           maxLength={100}
           value={characterName}
           placeholder="Character Name"
@@ -46,6 +48,7 @@ function NewCharacter() {
         />
         <br></br>
         <select
+          className="selectInput"
           value={characterBuild}
           onChange={() => setCharacterBuild(event.target.value)}
         >
@@ -68,6 +71,7 @@ function NewCharacter() {
         /> */}
         <br></br>
         <select
+          className="selectInput"
           value={characterClass}
           onChange={() => setCharacterClass(event.target.value)}
         >
@@ -84,8 +88,14 @@ function NewCharacter() {
             })}
         </select>
         <br></br>
-        <button onClick={goHome}>Home</button>
-        <button onClick={postCharacter}>Submit</button>
+        <div className="characterButtons">
+          <button className="mediumButton" onClick={goHome}>
+            Home
+          </button>
+          <button className="mediumButton" onClick={postCharacter}>
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );

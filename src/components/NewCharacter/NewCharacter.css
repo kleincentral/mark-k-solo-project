@@ -1,0 +1,20 @@
+.centered {
+    text-align: center;
+}
+
+.characterForm {
+    background-color: pink;
+    max-width: 40%;
+    padding: 2%;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+.selectInput {
+    width: 30%;
+    padding: 1%
+}
+
+.characterButtons {
+    margin-top: 2%;
+}
