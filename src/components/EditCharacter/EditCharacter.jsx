@@ -37,7 +37,7 @@ function EditCharacter() {
 
   const goBack = (event) => {
     event.preventDefault();
-    history.goBack();
+    history.push("/user");
   };
 
   return (
@@ -51,7 +51,7 @@ function EditCharacter() {
             onChange={() => setCharacterName(() => event.target.value)}
             value={characterName}
           />
-          {/* <p>Body Type: {currentCharacter.build_type}</p> */}
+          <p>Body Type: {currentCharacter.build_id}</p>
           <p>Class: {currentCharacter.class_name}</p>
         </div>
         <div className="flexItemUserPage gry">
@@ -65,11 +65,11 @@ function EditCharacter() {
         </div>
       </div>
       <footer className="centered">
+        <button className="longButton" onClick={() => goBack(event)}>
+          Home
+        </button>
         <button className="longButton" onClick={() => updateCharacter(event)}>
           Submit
-        </button>
-        <button className="longButton" onClick={() => goBack(event)}>
-          Back
         </button>
         <button className="longButton" onClick={() => deleteCharacter(event)}>
           Delete

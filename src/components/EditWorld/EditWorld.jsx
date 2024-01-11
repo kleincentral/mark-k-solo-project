@@ -54,7 +54,7 @@ function EditWorld() {
 
   const goBack = (event) => {
     event.preventDefault();
-    history.goBack();
+    history.push("/user");
   };
 
   const getCharactersFromParty = (partyId) => {
@@ -70,6 +70,18 @@ function EditWorld() {
     setDeletedParty(false);
     setPartyID(event.target.value);
     getCharactersFromParty(event.target.value);
+  };
+
+  const editSelectedParty = (e) => {
+    e.preventDefault();
+    console.log("Edit Selected Party", partyID);
+    let theParty = allParties.find((party) => party.id === Number(partyID));
+    console.log(theParty);
+    dispatch({
+      type: "SET_EDIT",
+      payload: theParty,
+    });
+    history.push("/editParty");
   };
 
   return (
@@ -115,7 +127,7 @@ function EditWorld() {
             <select
               className="selectInput"
               value={partyID}
-              onChange={() => handlePartyChange(event)}
+              onChange={handlePartyChange}
             >
               {allParties.map((index) => {
                 return (
@@ -130,11 +142,24 @@ function EditWorld() {
               return <p>{index.charactername}</p>;
             })}
             <button className="mediumButton" onClick={() => goBack(event)}>
-              Back
+              Home
             </button>
-            <button className="mediumButton" onClick={() => postWorld(event)}>
-              Depart
-            </button>
+            {(currentPartyChar[0] &&
+              !currentPartyChar[0].characterid &&
+              !currentPartyChar[1].characterid &&
+              !currentPartyChar[0].characterid && (
+                <button className="mediumButton" onClick={editSelectedParty}>
+                  Edit This Party
+                </button>
+              )) || (
+              <button
+                id="departButton"
+                className="mediumButton"
+                onClick={() => postWorld(event)}
+              >
+                Depart
+              </button>
+            )}
             <button className="mediumButton" onClick={() => deleteWorld(event)}>
               Delete World
             </button>

@@ -59,7 +59,7 @@ function NewCharacter() {
             buildType.map((index) => {
               return (
                 <option key={index.id} value={index.id}>
-                  {index.build_type}
+                  {index.id}
                 </option>
               );
             })}

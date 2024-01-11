@@ -152,6 +152,10 @@ function EditParty() {
     setSelectedChar("");
   };
 
+  const goBack = () => {
+    history.push("/home");
+  };
+
   return (
     <div>
       <div className="flexBoxUserPage">
@@ -217,8 +221,8 @@ function EditParty() {
         </div>
       </div>
       <footer className="centered">
-        <button className="longButton" onClick={() => history.goBack()}>
-          Back
+        <button className="longButton" onClick={goBack}>
+          Home
         </button>
         <button className="longButton" onClick={editParty}>
           Save

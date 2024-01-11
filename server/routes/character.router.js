@@ -15,6 +15,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
       "characters".character_name,
       "characters".user_id,
       "class".class_name,
+      "build_type".id AS "build_id",
       "build_type".build_type
     FROM "characters"
       LEFT JOIN "class"
