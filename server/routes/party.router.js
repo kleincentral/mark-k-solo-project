@@ -86,36 +86,24 @@ router.post("/", rejectUnauthenticated, (req, res) => {
       (party_name, user_id)
     VALUES ($1, $2)
     RETURNING "id"`;
+
   pool
     .query(queryText, [party_name, req.user.id])
     .then((result) => {
       queryText = `
       INSERT INTO "party_character_join"
         (party_id, character_id)
-      VALUES ($1, $2)`;
+      VALUES
+      ($1, $2),
+      ($1, $3),
+      ($1, $4)`;
       pool
-        .query(queryText, [result.rows[0].id, char0])
+        .query(queryText, [result.rows[0].id, char0, char1, char2])
         .then(() => {
-          pool
-            .query(queryText, [result.rows[0].id, char1])
-            .then(() => {
-              pool
-                .query(queryText, [result.rows[0].id, char2])
-                .then(() => {
-                  res.sendStatus(201);
-                })
-                .catch((err) => {
-                  console.log("POST Party char2 failed: ", err);
-                  res.sendStatus(500);
-                });
-            })
-            .catch((err) => {
-              console.log("POST Party char1 failed: ", err);
-              res.sendStatus(500);
-            });
+          res.sendStatus(201);
         })
         .catch((err) => {
-          console.log("POST Party char0 failed: ", err);
+          console.log("Party POST to party_character_join success!");
           res.sendStatus(500);
         });
     })
@@ -179,43 +167,45 @@ router.put("/", rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.delete("/:id", rejectUnauthenticated, (req, res) => {
-  let queryText = `
-    DELETE FROM "party_character_join"
-    WHERE "party_id" = $1
-  `;
-  pool
-    .query(queryText, [req.params.id])
-    .then((response) => {
-      queryText = `
+// Optimal Route with good practice. Change other Routes.
+router.delete("/:id", rejectUnauthenticated, async (req, res) => {
+  let connection;
+  try {
+    let partyCharacterQueryText = `
+      DELETE FROM "party_character_join"
+      WHERE "party_id" = $1;`;
+
+    let worldQueryText = `
       UPDATE "worlds"
       SET "party_id" = NULL
       WHERE "party_id" = $1;`;
-      pool
-        .query(queryText, [req.params.id])
-        .then((response) => {
-          queryText = `
-          DELETE FROM "party"
-          WHERE "id" = $1;`;
-          pool
-            .query(queryText, [req.params.id])
-            .then((response) => {
-              res.sendStatus(201);
-            })
-            .catch((err) => {
-              console.log("Error in Party DELETE 'party':", err);
-              res.sendStatus(500);
-            });
-        })
-        .catch((err) => {
-          console.log("Error in Party DELETE 'party':", err);
-          res.sendStatus(500);
-        });
-    })
-    .catch((err) => {
-      console.log("Error in Party DELETE 'party_character_join':", err);
-      res.sendStatus(500);
-    });
+
+    let partyQueryText = `
+      DELETE FROM "party"
+      WHERE "id" = $1;`;
+
+    // Esablish a longstanding connection with our database:
+    connection = await pool.connect();
+
+    // Begin the SQL transaction:
+    connection.query("BEGIN;");
+
+    const partyCharacterRes = await connection.query(partyCharacterQueryText, [
+      req.params.id,
+    ]);
+    const worldRes = await connection.query(worldQueryText, [req.params.id]);
+    const partyRes = await connection.query(partyQueryText, [req.params.id]);
+
+    connection.query("COMMIT;");
+    connection.release();
+
+    res.sendStatus(201);
+  } catch (err) {
+    console.log("Error in Party DELETE:", err);
+    connection.query("ROLLBACK;");
+    connection.release;
+    res.sendStatus(500);
+  }
 });
 
 module.exports = router;

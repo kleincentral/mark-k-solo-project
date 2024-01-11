@@ -1,3 +1,4 @@
+-- Database Name: solo_project
 
 -- USER is a reserved keyword with Postgres
 -- You must use double quotes in every query that user is in:
@@ -5,8 +6,8 @@
 -- Otherwise you will have errors!
 CREATE TABLE "user" (
     "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR (80) UNIQUE NOT NULL,
-    "password" VARCHAR (1000) NOT NULL,
+    "username" VARCHAR(80) UNIQUE NOT NULL,
+    "password" VARCHAR(1000) NOT NULL,
     "email" VARCHAR(1000) NOT NULL
 );
 
@@ -17,12 +18,12 @@ CREATE TABLE "class" (
 
 CREATE TABLE "build_type" (
 	"id" SERIAL PRIMARY KEY,
-	"build_type" VARCHAR(10)
+	"build_type" VARCHAR(100)
 );
 
 CREATE TABLE "characters" (
 	"id" SERIAL PRIMARY KEY,
-	"character_name" VARCHAR(100) UNIQUE NOT NULL,
+	"character_name" VARCHAR(100) NOT NULL,
     "user_id" INT REFERENCES "user",
 	"class_id" INT REFERENCES "class",
 	"build_type_id" INT REFERENCES "build_type"
@@ -30,10 +31,14 @@ CREATE TABLE "characters" (
 
 CREATE TABLE "party" (
 	"id" SERIAL PRIMARY KEY,
-    "user_id" INT REFERENCES "user",
-	"character_0_id" INT REFERENCES "characters",
-	"character_1_id" INT REFERENCES "characters",
-	"character_2_id" INT REFERENCES "characters"
+	"party_name" VARCHAR(50),
+    "user_id" INT REFERENCES "user"
+);
+
+CREATE TABLE "party_character_join" (
+	"id" SERIAL PRIMARY KEY,
+	"party_id" INT REFERENCES "party",
+	"character_id" INT REFERENCES "characters"
 );
 
 CREATE TABLE "worlds" (
@@ -41,11 +46,11 @@ CREATE TABLE "worlds" (
     "user_id" INT REFERENCES "user",
     "world_name" VARCHAR(100) NOT NULL,
     "progress_state" INT,
-    "party_id" INT REFERENCES "party",
+    "party_id" INT REFERENCES "party"
 );
 
 INSERT INTO "class"
-("class_name")
+("name")
 VALUES
 ('Warrior'),
 ('Rogue'),
@@ -56,7 +61,7 @@ VALUES
 ('Artificer');
 
 INSERT INTO "build_type"
-("build_type")
+("type")
 VALUES
 ('male'),
 ('female'),
