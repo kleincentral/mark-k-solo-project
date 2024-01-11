@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import "./EditCharacter.css";
 
 function EditCharacter() {
   const currentCharacter = useSelector((store) => store.editReducer);
@@ -41,21 +42,39 @@ function EditCharacter() {
 
   return (
     <div>
-      <h2>Edit Character</h2>
-      <p>Character Name:</p>
-      <form>
-        <input
-          maxLength={100}
-          onChange={() => setCharacterName(() => event.target.value)}
-          value={characterName}
-        />
-        <br></br>
-        <p>Body Type: {currentCharacter.build_type}</p>
-        <p>Class: {currentCharacter.class_name}</p>
-        <button onClick={() => goBack(event)}>Back</button>
-        <button onClick={() => updateCharacter(event)}>Submit</button>
-        <button onClick={() => deleteCharacter(event)}>Delete</button>
-      </form>
+      <h1 className="centered">Edit Character</h1>
+      <div className="flexBoxUserPage">
+        <div className="flexItemUserPage gry">
+          <p>Character Name:</p>
+          <input
+            maxLength={100}
+            onChange={() => setCharacterName(() => event.target.value)}
+            value={characterName}
+          />
+          {/* <p>Body Type: {currentCharacter.build_type}</p> */}
+          <p>Class: {currentCharacter.class_name}</p>
+        </div>
+        <div className="flexItemUserPage gry">
+          <p>Inventory:</p>
+          {/* Write out inventory mapping after inventory gets made*/}
+        </div>
+        <div className="gry mrgn">
+          <p>Equipped Items:</p>
+          {/* Write out equipment mapping after inventory gets made.
+          Functionality needs to be added to swap equipped items here too.*/}
+        </div>
+      </div>
+      <footer className="centered">
+        <button className="longButton" onClick={() => updateCharacter(event)}>
+          Submit
+        </button>
+        <button className="longButton" onClick={() => goBack(event)}>
+          Back
+        </button>
+        <button className="longButton" onClick={() => deleteCharacter(event)}>
+          Delete
+        </button>
+      </footer>
     </div>
   );
 }
