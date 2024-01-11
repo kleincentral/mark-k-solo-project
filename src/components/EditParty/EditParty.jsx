@@ -147,60 +147,86 @@ function EditParty() {
     history.push("/user");
   };
 
+  const deselect = () => {
+    clearRed();
+    setSelectedChar("");
+  };
+
   return (
     <div>
-      <h2>Edit Party</h2>
-      <li
-        id="char0Edit"
-        onClick={() =>
-          swapCharSelectCurrent("char0", partyMembers.char0.character_name)
-        }
-      >
-        Character 1: {partyMembers.char0.character_name}
-      </li>
-      <li
-        id="char1Edit"
-        onClick={() =>
-          swapCharSelectCurrent("char1", partyMembers.char1.character_name)
-        }
-      >
-        Character 2: {partyMembers.char1.character_name}
-      </li>
-      <li
-        id="char2Edit"
-        onClick={() =>
-          swapCharSelectCurrent("char2", partyMembers.char2.character_name)
-        }
-      >
-        Character 3: {partyMembers.char2.character_name}
-      </li>
-      {selectedChar != "" && <button onClick={remove}>Remove Character</button>}
-      <h2>Characters</h2>
-      {character[0] &&
-        character.map((index) => {
-          return (
-            <li key={index.id} onClick={() => addToParty(index)}>
-              {index.character_name}
-            </li>
-          );
-        })}
+      <div className="flexBoxUserPage">
+        <div className="flexItemUserPage gry">
+          <h2>Edit Party</h2>
+          <p
+            id="char0Edit"
+            onClick={() =>
+              swapCharSelectCurrent("char0", partyMembers.char0.character_name)
+            }
+          >
+            Character 1: {partyMembers.char0.character_name}
+          </p>
+          <p
+            id="char1Edit"
+            onClick={() =>
+              swapCharSelectCurrent("char1", partyMembers.char1.character_name)
+            }
+          >
+            Character 2: {partyMembers.char1.character_name}
+          </p>
+          <p
+            id="char2Edit"
+            onClick={() =>
+              swapCharSelectCurrent("char2", partyMembers.char2.character_name)
+            }
+          >
+            Character 3: {partyMembers.char2.character_name}
+          </p>
+          {selectedChar != "" && (
+            <div>
+              <button className="longButton" onClick={remove}>
+                Remove Character
+              </button>
+              <button className="longButton" onClick={deselect}>
+                Deselect
+              </button>
+            </div>
+          )}
+        </div>
+        <div className="flexItemUserPage gry">
+          <h2>Characters</h2>
+          {character[0] &&
+            character.map((index) => {
+              return (
+                <p key={index.id} onClick={() => addToParty(index)}>
+                  {index.character_name}
+                </p>
+              );
+            })}
 
-      <form>
-        <label>Party Name</label>
-        <input
-          maxLength={50}
-          onChange={() =>
-            setPartyMember((partyMembers) => ({
-              ...partyMembers,
-              party_name: event.target.value,
-            }))
-          }
-          value={partyMembers.party_name}
-        />
-      </form>
-      <button onClick={() => history.goBack()}>Back</button>
-      <button onClick={editParty}>Save</button>
-      <button onClick={deleteParty}>Delete</button>
+          <h4>Party Name:</h4>
+          <input
+            maxLength={50}
+            onChange={() =>
+              setPartyMember((partyMembers) => ({
+                ...partyMembers,
+                party_name: event.target.value,
+              }))
+            }
+            value={partyMembers.party_name}
+          />
+        </div>
+      </div>
+      <footer className="centered">
+        <button className="longButton" onClick={() => history.goBack()}>
+          Back
+        </button>
+        <button className="longButton" onClick={editParty}>
+          Save
+        </button>
+        <button className="longButton" onClick={deleteParty}>
+          Delete
+        </button>
+      </footer>
     </div>
   );
 }
