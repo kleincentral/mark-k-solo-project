@@ -16,14 +16,18 @@ function EditCharacter() {
 
   const updateCharacter = (event) => {
     event.preventDefault();
-    dispatch({
-      type: "UPDATE_CHARACTER",
-      payload: {
-        character_id: currentCharacter.id,
-        character_name: characterName,
-      },
-    });
-    history.push("/user");
+    if (characterName != "") {
+      dispatch({
+        type: "UPDATE_CHARACTER",
+        payload: {
+          character_id: currentCharacter.id,
+          character_name: characterName,
+        },
+      });
+      history.push("/user");
+    } else {
+      alert("Please Add a character name!");
+    }
   };
 
   const deleteCharacter = (event) => {

@@ -32,15 +32,19 @@ function EditWorld() {
 
   const postWorld = (event) => {
     event.preventDefault();
-    dispatch({
-      type: "EDIT_WORLD",
-      payload: {
-        worldName,
-        partyID,
-        currentWorldID: currentParty.id,
-      },
-    });
-    history.push("/user");
+    if (worldName != "") {
+      dispatch({
+        type: "EDIT_WORLD",
+        payload: {
+          worldName,
+          partyID,
+          currentWorldID: currentParty.id,
+        },
+      });
+      history.push("/user");
+    } else {
+      alert("Name your world!");
+    }
   };
 
   const deleteWorld = (event) => {
@@ -74,9 +78,9 @@ function EditWorld() {
 
   const editSelectedParty = (e) => {
     e.preventDefault();
-    console.log("Edit Selected Party", partyID);
+    // console.log("Edit Selected Party", partyID);
     let theParty = allParties.find((party) => party.id === Number(partyID));
-    console.log(theParty);
+    // console.log(theParty);
     dispatch({
       type: "SET_EDIT",
       payload: theParty,
@@ -138,6 +142,15 @@ function EditWorld() {
               })}
             </select>
             <br></br>
+            {currentPartyChar[0] &&
+              !currentPartyChar[0].characterid &&
+              !currentPartyChar[1].characterid &&
+              !currentPartyChar[0].characterid && (
+                <h5>
+                  Your party doesn't seem to have any characters in it, go add
+                  some!
+                </h5>
+              )}
             {currentPartyChar.map((index) => {
               return <p>{index.charactername}</p>;
             })}

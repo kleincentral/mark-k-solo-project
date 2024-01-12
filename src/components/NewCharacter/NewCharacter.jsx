@@ -16,15 +16,23 @@ function NewCharacter() {
 
   const postCharacter = (e) => {
     e.preventDefault();
-    dispatch({
-      type: "CREATE_CHARACTER",
-      payload: {
-        characterClass,
-        characterBuild,
-        characterName,
-      },
-    });
-    history.push("/user");
+    if (characterName === "") {
+      alert("Add a character name!");
+    } else if (characterBuild === "") {
+      alert("Add a body type!");
+    } else if (characterClass === "") {
+      alert("Add a class!");
+    } else {
+      dispatch({
+        type: "CREATE_CHARACTER",
+        payload: {
+          characterClass,
+          characterBuild,
+          characterName,
+        },
+      });
+      history.push("/user");
+    }
   };
   // This function first finds if there is a repeating
   // party character. If there isn't, it will add
@@ -33,6 +41,17 @@ function NewCharacter() {
   const goHome = (e) => {
     e.preventDefault();
     history.push("/user");
+  };
+
+  const randomCharacter = (e) => {
+    e.preventDefault();
+    console.log("e");
+    let randClass = Math.floor(Math.random() * classReducer.length + 1);
+    console.log(randClass);
+    setCharacterClass(randClass);
+    let randBodyType = Math.floor(Math.random() * buildType.length + 1);
+    setCharacterBuild(randBodyType);
+    setCharacterName("Bingus VII");
   };
 
   return (
@@ -94,6 +113,9 @@ function NewCharacter() {
           </button>
           <button className="mediumButton" onClick={postCharacter}>
             Submit
+          </button>
+          <button className="mediumButton" onClick={randomCharacter}>
+            Random
           </button>
         </div>
       </form>

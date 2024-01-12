@@ -26,14 +26,18 @@ function NewWorld() {
 
   const postWorld = (event) => {
     event.preventDefault();
-    dispatch({
-      type: "CREATE_WORLD",
-      payload: {
-        worldName,
-        partyID,
-      },
-    });
-    history.push("/user");
+    if (worldName != "") {
+      dispatch({
+        type: "CREATE_WORLD",
+        payload: {
+          worldName,
+          partyID,
+        },
+      });
+      history.push("/user");
+    } else {
+      alert("Add a world name!");
+    }
   };
 
   const toNewParty = (event) => {
@@ -53,6 +57,18 @@ function NewWorld() {
   const handlePartyChange = (event) => {
     setPartyID(event.target.value);
     getCharactersFromParty(event.target.value);
+  };
+
+  const editSelectedParty = (e) => {
+    e.preventDefault();
+    // console.log("Edit Selected Party", partyID);
+    let theParty = allParties.find((party) => party.id === Number(partyID));
+    // console.log(theParty);
+    dispatch({
+      type: "SET_EDIT",
+      payload: theParty,
+    });
+    history.push("/editParty");
   };
 
   return (
@@ -100,6 +116,15 @@ function NewWorld() {
             })}
           </select>
           <br></br>
+          {currentPartyChar[0] &&
+            !currentPartyChar[0].characterid &&
+            !currentPartyChar[1].characterid &&
+            !currentPartyChar[0].characterid && (
+              <h5>
+                Your party doesn't seem to have any characters in it, go add
+                some!
+              </h5>
+            )}
           {currentPartyChar.map((index) => {
             return <p>{index.charactername}</p>;
           })}
@@ -109,11 +134,24 @@ function NewWorld() {
           >
             Home
           </button>
+          {(currentPartyChar[0] &&
+            !currentPartyChar[0].characterid &&
+            !currentPartyChar[1].characterid &&
+            !currentPartyChar[0].characterid && (
+              <button className="mediumButton" onClick={editSelectedParty}>
+                Edit This Party
+              </button>
+            )) || (
+            <button
+              id="departButton"
+              className="mediumButton"
+              onClick={() => postWorld(event)}
+            >
+              Depart
+            </button>
+          )}
           <button className="mediumButton" onClick={() => toNewParty(event)}>
             New Party
-          </button>
-          <button className="mediumButton" onClick={() => postWorld(event)}>
-            Depart
           </button>
         </form>
       )}

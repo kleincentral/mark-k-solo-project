@@ -48,6 +48,7 @@ function RegisterForm() {
             type="password"
             name="password"
             value={password}
+            minLength={5}
             required
             onChange={(event) => setPassword(event.target.value)}
           />

@@ -65,6 +65,29 @@ function UserPage() {
     <div>
       <h2 className="container">Welcome, {user.username}!</h2>
       {/* <p>Your ID is: {user.id}</p> */}
+      {!world[0] && !party[0] && !character[0] && (
+        <div className="centered">
+          <p>
+            It looks like you don't have any data... lets start by hitting the
+            <strong> New Character</strong> button below!
+          </p>
+        </div>
+      )}
+      {!world[0] && !party[0] && character[0] && (
+        <div className="centered">
+          <p>
+            Lets make a party! Hit the <strong>New Party</strong> button
+          </p>
+        </div>
+      )}
+      {!world[0] && party[0] && character[0] && (
+        <div className="centered">
+          <p>
+            Make a new world! Hit the <strong>New World</strong> button to start
+            your adventure!
+          </p>
+        </div>
+      )}
       <div className="flexBoxUserPage">
         <div className="flexItemUserPage">
           <button className="longButton" onClick={newParty}>

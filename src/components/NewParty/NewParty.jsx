@@ -4,9 +4,9 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function NewParty() {
   let [partyMembers, setPartyMember] = useState({
-    char0: { character_name: "" },
-    char1: { character_name: "" },
-    char2: { character_name: "" },
+    char0: { character_name: "", character_id: "" },
+    char1: { character_name: "", character_id: "" },
+    char2: { character_name: "", character_id: "" },
     party_name: "",
   });
   let [selectedChar, setSelectedChar] = useState("");
@@ -19,17 +19,21 @@ function NewParty() {
 
   const postParty = () => {
     // if (ready) {
-    dispatch({
-      type: "CREATE_PARTY",
-      payload: partyMembers,
-    });
-    setPartyMember({
-      char0: { character_name: "" },
-      char1: { character_name: "" },
-      char2: { character_name: "" },
-      party_name: "",
-    });
-    history.push("/user");
+    if (partyMembers.party_name != "") {
+      dispatch({
+        type: "CREATE_PARTY",
+        payload: partyMembers,
+      });
+      setPartyMember({
+        char0: { character_name: "", character_id: "" },
+        char1: { character_name: "", character_id: "" },
+        char2: { character_name: "", character_id: "" },
+        party_name: "",
+      });
+      history.push("/user");
+    } else {
+      alert("Name your party!");
+    }
     // }
     // console.log("Not Ready");
   };
@@ -40,19 +44,30 @@ function NewParty() {
     // console.log(index);
     let newInput = false;
     for (const key in partyMembers) {
-      if (
-        partyMembers[key].character_name === index.character_name &&
-        index.character_name != ""
-      ) {
+      if (partyMembers[key].character_id === index.id && index.id != "") {
         alert("Cannot have two of the same character in a party!");
         newInput = false;
+        console.log(
+          index.character_id,
+          partyMembers[key].character_id,
+          index.character_name,
+          partyMembers[key].character_name
+        );
         break;
       } else if (
-        partyMembers[key].character_name === "" ||
-        partyMembers[key].character_name === selectedChar
+        partyMembers[key].character_id === "" ||
+        partyMembers[key].character_id === selectedChar ||
+        typeof partyMembers[key].character_id === "object"
       ) {
-        newInput = key;
-        break;
+        if (!newInput) {
+          newInput = key;
+          console.log(
+            index.character_id,
+            partyMembers[key].character_id,
+            index.character_name,
+            partyMembers[key].character_name
+          );
+        }
       }
     }
     if (newInput) {
@@ -95,25 +110,33 @@ function NewParty() {
 
   const remove = () => {
     // console.log("Remove", selectedChar);
-    if (partyMembers.char0.character_name === selectedChar) {
+    if (partyMembers.char0.character_id === selectedChar) {
       partyMembers.char0.character_name = "";
-    } else if (partyMembers.char1.character_name === selectedChar) {
+      partyMembers.char0.character_id = null;
+    } else if (partyMembers.char1.character_id === selectedChar) {
       partyMembers.char1.character_name = "";
-    } else if (partyMembers.char2.character_name === selectedChar) {
+      partyMembers.char1.character_id = null;
+    } else if (partyMembers.char2.character_id === selectedChar) {
       partyMembers.char2.character_name = "";
+      partyMembers.char2.character_id = null;
     }
-    addToParty({ character_name: "" });
+    addToParty({ id: "" });
+  };
+
+  const deselect = () => {
+    clearRed();
+    setSelectedChar("");
   };
 
   return (
     <div>
       <div className="flexBoxUserPage">
-        <div className="flexItemUserPage">
+        <div className="flexItemUserPage gry">
           <h2>Party</h2>
           <p
             id="char0Edit"
             onClick={() =>
-              swapCharSelectCurrent("char0", partyMembers.char0.character_name)
+              swapCharSelectCurrent("char0", partyMembers.char0.character_id)
             }
           >
             Character 1: {partyMembers.char0.character_name}
@@ -121,7 +144,7 @@ function NewParty() {
           <p
             id="char1Edit"
             onClick={() =>
-              swapCharSelectCurrent("char1", partyMembers.char1.character_name)
+              swapCharSelectCurrent("char1", partyMembers.char1.character_id)
             }
           >
             Character 2: {partyMembers.char1.character_name}
@@ -129,16 +152,23 @@ function NewParty() {
           <p
             id="char2Edit"
             onClick={() =>
-              swapCharSelectCurrent("char2", partyMembers.char2.character_name)
+              swapCharSelectCurrent("char2", partyMembers.char2.character_id)
             }
           >
             Character 3: {partyMembers.char2.character_name}
           </p>
           {selectedChar != "" && (
-            <button onClick={remove}>Remove Character</button>
+            <div>
+              <button className="longButton" onClick={remove}>
+                Remove Character
+              </button>
+              <button className="longButton" onClick={deselect}>
+                Deselect
+              </button>
+            </div>
           )}
         </div>
-        <div className="flexItemUserPage">
+        <div className="flexItemUserPage gry">
           <h2>Characters</h2>
           {character[0] &&
             character.map((index) => {
@@ -148,11 +178,7 @@ function NewParty() {
                 </p>
               );
             })}
-        </div>
-      </div>
-      <footer>
-        <form>
-          <label>Name Your Party</label>
+          <h4>Name Your Party</h4>
           <input
             maxLength={50}
             onChange={() =>
@@ -163,7 +189,9 @@ function NewParty() {
             }
             value={partyMembers.party_name}
           />
-        </form>
+        </div>
+      </div>
+      <footer>
         <button className="mediumButton" onClick={() => history.push("/user")}>
           Home
         </button>
