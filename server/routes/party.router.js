@@ -75,42 +75,52 @@ router.get("/", rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.post("/", rejectUnauthenticated, (req, res) => {
-  const party_name = req.body.party_name;
-  const char0 = req.body.char0.character_id;
-  const char1 = req.body.char1.character_id;
-  const char2 = req.body.char2.character_id;
+router.post("/", rejectUnauthenticated, async (req, res) => {
+  let connection;
+  try {
+    const party_name = req.body.party_name;
+    const char0 = req.body.char0.character_id;
+    const char1 = req.body.char1.character_id;
+    const char2 = req.body.char2.character_id;
 
-  let queryText = `
+    let partyQueryText = `
     INSERT INTO "party"
       (party_name, user_id)
     VALUES ($1, $2)
     RETURNING "id"`;
 
-  pool
-    .query(queryText, [party_name, req.user.id])
-    .then((result) => {
-      queryText = `
-      INSERT INTO "party_character_join"
-        (party_id, character_id)
-      VALUES
+    let partyCharacterQueryText = `
+    INSERT INTO "party_character_join"
+      (party_id, character_id)
+    VALUES
       ($1, $2),
       ($1, $3),
       ($1, $4)`;
-      pool
-        .query(queryText, [result.rows[0].id, char0, char1, char2])
-        .then(() => {
-          res.sendStatus(201);
-        })
-        .catch((err) => {
-          console.log("Party POST to party_character_join success!");
-          res.sendStatus(500);
-        });
-    })
-    .catch((err) => {
-      console.log("Party POST failed:", err);
-      res.sendStatus(500);
-    });
+
+    connection = await pool.connect();
+    connection.query("BEGIN;");
+
+    const partyRes = await connection.query(partyQueryText, [
+      party_name,
+      req.user.id,
+    ]);
+    const partyCharacterRes = await connection.query(partyCharacterQueryText, [
+      partyRes.rows[0].id,
+      char0,
+      char1,
+      char2,
+    ]);
+
+    connection.query("COMMIT;");
+    connection.release();
+
+    res.sendStatus(201);
+  } catch (err) {
+    console.log("Error in Party POST:", err);
+    connection.query("ROLLBACK;");
+    connection.release();
+    res.sendStatus(500);
+  }
 });
 
 router.put("/", rejectUnauthenticated, (req, res) => {

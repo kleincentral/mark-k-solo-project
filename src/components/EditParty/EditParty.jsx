@@ -214,6 +214,13 @@ function EditParty() {
                 </p>
               );
             })}
+          {!character[0] && (
+            <div>
+              <button onClick={() => history.push("/newCharacter")}>
+                Make a New Character
+              </button>
+            </div>
+          )}
 
           <h4>Party Name:</h4>
           <input

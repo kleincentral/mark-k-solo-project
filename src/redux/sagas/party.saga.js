@@ -23,6 +23,7 @@ function* createParty(action) {
     yield put({ type: "FETCH_PARTY" });
   } catch (error) {
     console.log("Party POST request failed", error);
+    put({ type: "FETCH_PARTY" });
   }
 }
 

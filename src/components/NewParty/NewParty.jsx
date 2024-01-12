@@ -4,9 +4,21 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function NewParty() {
   let [partyMembers, setPartyMember] = useState({
-    char0: { character_name: "", character_id: "" },
-    char1: { character_name: "", character_id: "" },
-    char2: { character_name: "", character_id: "" },
+    char0: {
+      party_character_join_id: null,
+      character_name: null,
+      character_id: null,
+    },
+    char1: {
+      party_character_join_id: null,
+      character_name: null,
+      character_id: null,
+    },
+    char2: {
+      party_character_join_id: null,
+      character_name: null,
+      character_id: null,
+    },
     party_name: "",
   });
   let [selectedChar, setSelectedChar] = useState("");
@@ -25,9 +37,21 @@ function NewParty() {
         payload: partyMembers,
       });
       setPartyMember({
-        char0: { character_name: "", character_id: "" },
-        char1: { character_name: "", character_id: "" },
-        char2: { character_name: "", character_id: "" },
+        char0: {
+          party_character_join_id: null,
+          character_name: null,
+          character_id: null,
+        },
+        char1: {
+          party_character_join_id: null,
+          character_name: null,
+          character_id: null,
+        },
+        char2: {
+          party_character_join_id: null,
+          character_name: null,
+          character_id: null,
+        },
         party_name: "",
       });
       history.push("/user");
@@ -111,13 +135,13 @@ function NewParty() {
   const remove = () => {
     // console.log("Remove", selectedChar);
     if (partyMembers.char0.character_id === selectedChar) {
-      partyMembers.char0.character_name = "";
+      partyMembers.char0.character_name = null;
       partyMembers.char0.character_id = null;
     } else if (partyMembers.char1.character_id === selectedChar) {
-      partyMembers.char1.character_name = "";
+      partyMembers.char1.character_name = null;
       partyMembers.char1.character_id = null;
     } else if (partyMembers.char2.character_id === selectedChar) {
-      partyMembers.char2.character_name = "";
+      partyMembers.char2.character_name = null;
       partyMembers.char2.character_id = null;
     }
     addToParty({ id: "" });

@@ -45,13 +45,13 @@ function NewCharacter() {
 
   const randomCharacter = (e) => {
     e.preventDefault();
-    console.log("e");
     let randClass = Math.floor(Math.random() * classReducer.length + 1);
-    console.log(randClass);
     setCharacterClass(randClass);
     let randBodyType = Math.floor(Math.random() * buildType.length + 1);
     setCharacterBuild(randBodyType);
-    setCharacterName("Bingus VII");
+    if (characterName === "") {
+      setCharacterName("Bingus VII");
+    }
   };
 
   return (
