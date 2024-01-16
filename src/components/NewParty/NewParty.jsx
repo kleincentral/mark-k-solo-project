@@ -95,6 +95,9 @@ function NewParty() {
       }
     }
     if (newInput) {
+      if (index.id === "") {
+        index.id = null;
+      }
       const newObj = {
         party_character_join_id: partyMembers[newInput].party_character_join_id,
         character_id: index.id,
@@ -147,6 +150,10 @@ function NewParty() {
     addToParty({ id: "" });
   };
 
+  const state = () => {
+    console.log(partyMembers);
+  };
+
   const deselect = () => {
     clearRed();
     setSelectedChar("");
@@ -156,7 +163,7 @@ function NewParty() {
     <div>
       <div className="flexBoxUserPage">
         <div className="flexItemUserPage gry">
-          <h2>Party</h2>
+          <h2 onClick={state}>Party</h2>
           <p
             id="char0Edit"
             onClick={() =>

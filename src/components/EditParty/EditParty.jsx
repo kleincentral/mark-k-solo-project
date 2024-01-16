@@ -152,11 +152,11 @@ function EditParty() {
     console.log(partyMembers.party_id);
     //write delete here
     console.log(partyMembers);
-    // dispatch({
-    //   type: "DELETE_PARTY",
-    //   payload: partyMembers.party_id,
-    // });
-    // history.push("/user");
+    dispatch({
+      type: "DELETE_PARTY",
+      payload: partyMembers.party_id,
+    });
+    history.push("/user");
   };
 
   const deselect = () => {
