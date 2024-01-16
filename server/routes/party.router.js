@@ -123,58 +123,49 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
   }
 });
 
-router.put("/", rejectUnauthenticated, (req, res) => {
-  let queryText = `
+router.put("/", rejectUnauthenticated, async (req, res) => {
+  let connection;
+  try {
+    let partyQuery = `
     UPDATE "party"
     SET "party_name" = $1
     WHERE "id" = $2;`;
-  pool
-    .query(queryText, [req.body.party_name, req.body.party_id])
-    .then((response) => {
-      queryText = `
-      UPDATE "party_character_join"
-      SET "character_id" = $1
-      WHERE "id" = $2;`;
-      pool
-        .query(queryText, [
-          req.body.party_characters.character_0_id,
-          req.body.party_characters.character_0_joinID,
-        ])
-        .then((response) => {
-          // console.log("First Update complete!");
-          pool
-            .query(queryText, [
-              req.body.party_characters.character_1_id,
-              req.body.party_characters.character_1_joinID,
-            ])
-            .then((response) => {
-              // console.log("Second Update complete!");
-              pool
-                .query(queryText, [
-                  req.body.party_characters.character_2_id,
-                  req.body.party_characters.character_2_joinID,
-                ])
-                .then((response) => {
-                  // console.log("Last Update complete!");
-                  // console.log("Party Updated");
-                  res.sendStatus(201);
-                })
-                .catch((err) => {
-                  console.log("Error in party_character_join final PUT", err);
-                });
-            })
-            .catch((err) => {
-              console.log("Error in party_character_join second PUT", err);
-            });
-        })
-        .catch((err) => {
-          console.log("Error in party_character_join first PUT", err);
-        });
-    })
-    .catch((err) => {
-      console.log("Error in Party PUT:", err);
-      res.sendStatus(500);
-    });
+
+    let partyCharacterQuery = `
+    UPDATE "party_character_join"
+    SET "character_id" = $1
+    WHERE "id" = $2;`;
+
+    connection = await pool.connect();
+    connection.query("BEGIN;");
+
+    const partyRes = await connection.query(partyQuery, [
+      req.body.party_name,
+      req.body.party_id,
+    ]);
+
+    await connection.query(partyCharacterQuery, [
+      req.body.party_characters.character_0_id,
+      req.body.party_characters.character_0_joinID,
+    ]);
+    await connection.query(partyCharacterQuery, [
+      req.body.party_characters.character_1_id,
+      req.body.party_characters.character_1_joinID,
+    ]);
+    await connection.query(partyCharacterQuery, [
+      req.body.party_characters.character_2_id,
+      req.body.party_characters.character_2_joinID,
+    ]);
+    connection.query("COMMIT;");
+    connection.release();
+
+    res.sendStatus(201);
+  } catch (err) {
+    console.log("Error in Party PUT:", err);
+    connection.query("ROLLBACK;");
+    connection.release();
+    res.sendStatus(500);
+  }
 });
 
 // Optimal Route with good practice. Change other Routes.
@@ -213,7 +204,7 @@ router.delete("/:id", rejectUnauthenticated, async (req, res) => {
   } catch (err) {
     console.log("Error in Party DELETE:", err);
     connection.query("ROLLBACK;");
-    connection.release;
+    connection.release();
     res.sendStatus(500);
   }
 });

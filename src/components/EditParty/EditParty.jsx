@@ -87,11 +87,14 @@ function EditParty() {
       ) {
         if (!newInput) {
           newInput = key;
-          console.log("Key reached");
+          console.log("Key reached", key, index);
         }
       }
     }
     if (newInput) {
+      if (index.id === "") {
+        index.id = null;
+      }
       const newObj = {
         party_character_join_id: partyMembers[newInput].party_character_join_id,
         character_id: index.id,
@@ -130,29 +133,30 @@ function EditParty() {
   };
 
   const remove = () => {
-    // console.log("Remove", selectedChar);
+    console.log("Remove", selectedChar, partyMembers.char0.character_id);
     if (partyMembers.char0.character_id === selectedChar) {
-      partyMembers.char0.character_name = "";
+      partyMembers.char0.character_name = null;
       partyMembers.char0.character_id = null;
     } else if (partyMembers.char1.character_id === selectedChar) {
-      partyMembers.char1.character_name = "";
+      partyMembers.char1.character_name = null;
       partyMembers.char1.character_id = null;
     } else if (partyMembers.char2.character_id === selectedChar) {
-      partyMembers.char2.character_name = "";
+      partyMembers.char2.character_name = null;
       partyMembers.char2.character_id = null;
     }
-    addToParty({ id: "" });
+    addToParty({ id: "", character_name: null });
   };
 
   const deleteParty = () => {
     console.log("Delete GO!");
     console.log(partyMembers.party_id);
     //write delete here
-    dispatch({
-      type: "DELETE_PARTY",
-      payload: partyMembers.party_id,
-    });
-    history.push("/user");
+    console.log(partyMembers);
+    // dispatch({
+    //   type: "DELETE_PARTY",
+    //   payload: partyMembers.party_id,
+    // });
+    // history.push("/user");
   };
 
   const deselect = () => {
